@@ -6,7 +6,7 @@ help some adults (maybe children in future) to finish their daily homework from 
 * Open Chrome : Click **Menu** -> **Tools** -> **Extensions**, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 
 ## Usage
-* Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the Chrome toolbar to start running the program.
+* Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the Chrome toolbar to start running program.
 * If don't have login your account, scan the QR code in the opening page to login.
 * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
 
