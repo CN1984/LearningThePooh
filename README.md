@@ -1,5 +1,5 @@
 # Learning the Pooh
-help some adults (maybe children in future) to finish their daily homework from `xiexi.cn` happily.
+help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`.
 
 ## Install
 * Download the `release` folder to local.
