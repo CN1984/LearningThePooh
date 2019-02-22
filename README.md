@@ -2,11 +2,15 @@
 help some adults (maybe children in future) to finish their daily homework from `xiexi.cn` happily.
 
 ## Install
-* Download the `release` folder to local
+* Download the `release` folder to local.
 * Open Chrome : Click **Menu** -> **Tools** -> **Extensions**, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 
-## License
+## Usage
+* Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the Chrome toolbar to start running the program.
+* If don't have login your account, scan the QR code in the opening page to login.
+* Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
 
+## License
 ![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
 
 Learning the Pooh is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.

@@ -5,8 +5,12 @@
 * 下载本项目的 `release` 文件夹到本地
 * 打开Chrome : 点击 **菜单** -> **更多工具** -> **扩展程序**, 勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择上一步的 `release` 文件夹
 
-## License
+## 使用方法
+* 请点击Chrome工具栏上的 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) 按钮来启动程序
+* 如果你没有登录账号，在打开的页面中扫码二维码登录
+* 等待打开的小窗口中的程序完成“学习”，你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口
 
+## License
 ![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
 
 Learning the Pooh is licensed under [GNU General Public License](https://www.gnu.org/licenses/gpl.html) Version 3 or later.
