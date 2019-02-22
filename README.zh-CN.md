@@ -1,9 +1,9 @@
-# Learning the Pooh
-help some adults (maybe children in future) to finish their daily homework from `xiexi.cn` happily.
+# 学习小熊
+帮助一些成年人（或许未来包括小朋友）愉快地完成每日来自`学习强国`的作业。
 
-## Install
-* Download the `release` folder to local
-* Open Chrome : Click **Menu** -> **Tools** -> **Extensions**, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+## 安装方法
+* 下载本项目的 `release` 文件夹到本地
+* 打开Chrome : 点击 **菜单** -> **更多工具** -> **扩展程序**, 勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择上一步的 `release` 文件夹
 
 ## License
 
