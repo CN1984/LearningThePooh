@@ -1,4 +1,3 @@
-
 let loginTabId, runningTabId;
 
 //检查用户积分
@@ -117,7 +116,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
             "top": 0,
             "left": 0,
             "width": 180,
-            "height": 80
+            "height": 100
         }, function (window) {
             runningTabId = window.tabs[0].id;
         })
@@ -135,7 +134,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 "top": 0,
                 "left": 0,
                 "width": 180,
-                "height": 80
+                "height": 100
             }, function (window) {
                 runningTabId = window.tabs[0].id;
                 chrome.tabs.remove(loginTabId);
