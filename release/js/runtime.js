@@ -1,14 +1,17 @@
-window.addEventListener('load', function () {
-    chrome.runtime.sendMessage({"method": 'checkTab'}, {}, function (response) {
+window.addEventListener("load", function () {
+    chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
         if (response.hasOwnProperty("runtime")) {
             if (response.runtime === 1) {
-                document.querySelector('.header').innerHTML += '<div style="position:fixed;left:0;top:0;z-index:1;width:200px;height:50px;color:#ffffff;background-color:#ce0000;font-size:12px;line-height:20px;padding:2px;">学习中...<br>请勿[最小化]或[关闭]窗口.</div>';
+                document.querySelector(".header").innerHTML += '<div style="position:fixed;left:0;top:0;z-index:1;width:200px;height:50px;color:#ffffff;background-color:#ce0000;font-size:12px;line-height:20px;padding:2px;">学习中...<br>请勿[最小化]或[关闭]窗口.</div>';
 
-                let move = 1;
                 setInterval(function () {
-                    window.scrollTo(0, move);
-                    ++move;
+                    window.scrollTo(window.scrollX, window.scrollY + 1);
                 }, 1000);
+
+                let playBtn = document.querySelector(".prism-big-play-btn");
+                if (playBtn && playBtn.style.display === "block") {
+                    playBtn.click();
+                }
             }
         }
     });

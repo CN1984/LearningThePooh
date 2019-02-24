@@ -1,9 +1,9 @@
-let scriptList = document.querySelectorAll('script');
+let scriptList = document.querySelectorAll("script");
 if (typeof scriptList === "object") {
     for (let key in scriptList) {
         if (scriptList[key].src.search("dataindex.js") !== -1) {
             chrome.runtime.sendMessage({
-                "method": 'dataIndex',
+                "method": "dataIndex",
                 "data": scriptList[key].src
             });
             break;
