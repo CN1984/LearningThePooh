@@ -6,12 +6,17 @@ window.addEventListener("load", function () {
 
                 setInterval(function () {
                     window.scrollTo(window.scrollX, window.scrollY + 1);
-                }, 1000);
 
-                let playBtn = document.querySelector(".prism-big-play-btn");
-                if (playBtn && playBtn.style.display === "block") {
-                    playBtn.click();
-                }
+                    let playBtn = document.querySelector(".prism-big-play-btn");
+                    if (playBtn && playBtn.style.display === "block") {
+                        playBtn.click();
+                    }
+
+                    let video = document.querySelector('video');
+                    if (!video.muted){
+                        document.querySelector('video').muted = true;
+                    }
+                }, 1000);
             }
         }
     });
