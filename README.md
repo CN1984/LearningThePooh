@@ -10,6 +10,9 @@ help some adults (maybe children in future) to happily finish their daily homewo
 * If don't have login your account, scan the QR code in the opening page to login.
 * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
 
+## Known Issues
+* Can not earn points when the article or video has benn read one times.
+
 ## License
 ![GPLv3](https://www.gnu.org/graphics/gplv3-127x51.png)
 
