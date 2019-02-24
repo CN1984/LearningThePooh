@@ -1,7 +1,7 @@
 {
-  "name": "Learning the Pooh",
-  "version": "1.0.1",
-  "description": "A helper for xuexi.cn",
+  "name": "__MSG_extName__",
+  "version": "1.0.2",
+  "description": "__MSG_extDescription__",
   "permissions": [
     "*://*.xuexi.cn/*"
   ],
@@ -37,5 +37,6 @@
       ]
     }
   ],
+  "default_locale": "zh_CN",
   "manifest_version": 2
 }
