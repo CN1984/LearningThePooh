@@ -1,15 +1,14 @@
 {
+  "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "1.0.2",
+  "version": "1.1.0",
+  "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
-  "permissions": [
-    "*://*.xuexi.cn/*"
-  ],
   "icons": {
     "16": "img/16.png",
-    "32": "img/16.png",
-    "48": "img/16.png",
-    "128": "img/16.png"
+    "32": "img/32.png",
+    "48": "img/48.png",
+    "128": "img/128.png"
   },
   "browser_action": {
     "default_icon": "img/16.png"
@@ -37,6 +36,8 @@
       ]
     }
   ],
-  "default_locale": "zh_CN",
-  "manifest_version": 2
+  "permissions": [
+    "*://*.xuexi.cn/*",
+    "storage"
+  ]
 }
