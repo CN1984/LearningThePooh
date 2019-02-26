@@ -1,12 +1,19 @@
 # Learning the Pooh
-help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`.
+Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`.
 
 ## Install
-* Download the `release` folder to local.
-* Open Chrome : Click **Menu** -> **Tools** -> **Extensions**, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+* Chrome
+  1. Enter `chrome://extensions/` in the browser address bar.
+  2. Drag `LearnThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+* QQ browser
+  1. Enter `qqbrowser://extensions/manage` in the browser address bar.
+  2. Drag `LearnThePooh.crx` file to the page. check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+* 360 browser
+  1. Enter `se://extensions/` in the browser address bar.
+  2. Drag `LearnThePooh.crx` file to the page. check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 
 ## Usage
-* Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the Chrome toolbar to start running program.
+* Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the browser's toolbar to start running program.
 * If don't have login your account, scan the QR code in the opening page to login.
 * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
 
