@@ -10,10 +10,10 @@ Help some adults (maybe children in future) to happily finish their daily homewo
   2. Drag `LearnThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 * QQ Browser
   1. Enter `qqbrowser://extensions/manage` in the browser address bar.
-  2. Drag `LearnThePooh.crx` file to the page. check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+  2. Drag `LearnThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 * 360 Browser
   1. Enter `se://extensions/` in the browser address bar.
-  2. Drag `LearnThePooh.crx` file to the page. check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+  2. Drag `LearnThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 * Sogou Exploder
   1. Open any page.
   2. Drag `LearnThePooh.crx` file to the page.
