@@ -6,5 +6,25 @@
   "extDescription": {
     "message": "A helper for xuexi.cn",
     "description": ""
+  },
+  "extVersion": {
+    "message": "Please update browser version",
+    "description": ""
+  },
+  "extLogin": {
+    "message": "Please login account",
+    "description": ""
+  },
+  "extWorking": {
+    "message": "Study hard",
+    "description": ""
+  },
+  "extWarning": {
+    "message": "Don't [minimize] or [close] the popup window",
+    "description": ""
+  },
+  "extFinish": {
+    "message": "Complete, see you",
+    "description": ""
   }
 }

@@ -14,9 +14,6 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 * 360 Browser
   1. Enter `se://extensions/` in the browser address bar.
   2. Drag `LearnThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
-* Sogou Exploder
-  1. Open any page.
-  2. Drag `LearnThePooh.crx` file to the page.
 
 ## Usage
 * Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
