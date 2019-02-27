@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "icons": {
@@ -33,6 +33,14 @@
       ],
       "matches": [
         "*://www.xuexi.cn/*"
+      ]
+    },
+    {
+      "js": [
+        "js/login.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/login.html*"
       ]
     }
   ],

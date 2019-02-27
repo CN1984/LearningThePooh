@@ -27,7 +27,7 @@ function checkPoints(callback) {
                 if (runningWindowId) {
                     chrome.windows.remove(runningWindowId);
                 }
-                chrome.tabs.create({"url": "https://pc.xuexi.cn/points/login.html?ref=https://pc.xuexi.cn/points/my-points.html#ddlogin"}, function (tab) {
+                chrome.tabs.create({"url": "https://pc.xuexi.cn/points/login.html?ref=https://pc.xuexi.cn/points/my-points.html"}, function (tab) {
                     loginTabId = tab.id;
                     chrome.tabs.update(tab.id, {"muted": true});
                     chrome.notifications.create({
@@ -220,32 +220,31 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                 chrome.windows.get(runningWindowId, function (window) {
                     if (typeof window !== "undefined") {
                         chrome.windows.update(runningWindowId, {"focused": true, "state": "normal"});
-                        return false;
                     }
                 });
+            } else {
+                chrome.windows.create({
+                    "url": "https://www.xuexi.cn",
+                    "focused": true,
+                    "type": "popup",
+                    "top": 0,
+                    "left": 0,
+                    "width": 220,
+                    "height": 1
+                }, function (window) {
+                    runningWindowId = window.id;
+                    chrome.notifications.create({
+                        "type": "basic",
+                        "iconUrl": "img/128.png",
+                        "title": chrome.i18n.getMessage("extWorking"),
+                        "message": chrome.i18n.getMessage("extWarning")
+                    }, function (notificationId) {
+                        setTimeout(function () {
+                            chrome.notifications.clear(notificationId);
+                        }, 5000);
+                    });
+                })
             }
-
-            chrome.windows.create({
-                "url": "https://www.xuexi.cn",
-                "focused": true,
-                "type": "popup",
-                "top": 0,
-                "left": 0,
-                "width": 220,
-                "height": 1
-            }, function (window) {
-                runningWindowId = window.id;
-                chrome.notifications.create({
-                    "type": "basic",
-                    "iconUrl": "img/128.png",
-                    "title": chrome.i18n.getMessage("extWorking"),
-                    "message": chrome.i18n.getMessage("extWarning")
-                }, function (notificationId) {
-                    setTimeout(function () {
-                        chrome.notifications.clear(notificationId);
-                    }, 5000);
-                });
-            })
         });
     }
 });
