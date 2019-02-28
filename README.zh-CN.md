@@ -1,18 +1,21 @@
 # 学习小熊
-帮助一些成年人（或许未来包括小朋友）愉快地完成每日来自`学习强国`的作业。
+帮助一些成年人（或许未来包括孩子）快乐地完成来自`学习强国`的作业。
 
 ## 下载
-* [`LearnThePooh.crx`](https://github.com/CN1984/LearningThePooh/raw/master/LearnThePooh.crx)
+* [LearnThePooh.crx](https://github.com/CN1984/LearningThePooh/raw/master/LearnThePooh.crx)
 
 ## 安装方法
-* Chrome
-  1. 在地址栏输入 `chrome://extensions/`并回车
+* Chrome （推荐）
+  1. 在地址栏输入 `chrome://extensions/` 并回车。
   2. 拖动 `LearnThePooh.crx` 文件到页面内。或勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择 `release` 文件夹。
-* QQ浏览器
-  1. 在地址栏输入 `qqbrowser://extensions/manage`并回车
+* QQ 浏览器
+  1. 在地址栏输入 `qqbrowser://extensions/manage` 并回车。
   2. 拖动 `LearnThePooh.crx` 文件到页面内。或勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择 `release` 文件夹。
-* 360浏览器
-  1. 在地址栏输入 `se://extensions/`并回车
+* 360 安全浏览器
+  1. 在地址栏输入 `se://extensions/` 并回车。
+  2. 拖动 `LearnThePooh.crx` 文件到页面内。或勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择 `release` 文件夹。
+* 360 极速浏览器
+  1. 在地址栏输入 `chrome://myextensions/extensions/` 并回车。
   2. 拖动 `LearnThePooh.crx` 文件到页面内。或勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择 `release` 文件夹。
 
 ## 使用方法
