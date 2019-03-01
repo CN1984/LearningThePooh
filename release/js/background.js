@@ -64,28 +64,28 @@ function autoEarnPoints(list, wait) {
                     if (res[key].currentScore < res[key].dayMaxScore) {
                         type = "article";
                         mode = "quantity";
-                        newWait = 30 * 1000 + 10000;
+                        newWait = 35 * 1000 + Math.floor(Math.random() * 25 * 1000);
                     }
                     break;
                 case 2:
                     if (res[key].currentScore < res[key].dayMaxScore) {
                         type = "video";
                         mode = "quantity";
-                        newWait = 30 * 1000 + 10000;
+                        newWait = 35 * 1000 + Math.floor(Math.random() * 25 * 1000);
                     }
                     break;
                 case 1002:
                     if (res[key].currentScore < res[key].dayMaxScore) {
                         type = "article";
                         mode = "duration";
-                        newWait = 4 * 60 * 1000 + 10000;
+                        newWait = 245 * 1000 + Math.floor(Math.random() * 25 * 1000);
                     }
                     break;
                 case 1003:
                     if (res[key].currentScore < res[key].dayMaxScore) {
                         type = "video";
                         mode = "duration";
-                        newWait = 5 * 60 * 1000 + 10000;
+                        newWait = 305 * 1000 + Math.floor(Math.random() * 25 * 1000);
                     }
                     break;
             }
@@ -342,7 +342,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 }
                                 shuffle(list["article"]);
                                 shuffle(list["video"]);
-                                autoEarnPoints(list, 1000);
+                                autoEarnPoints(list, 1000 + Math.floor(Math.random()* 1000));
                             });
                         }
                     }
