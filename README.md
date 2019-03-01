@@ -2,7 +2,7 @@
 Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`.
 
 ## Download
-* [LearnThePooh.crx](https://github.com/CN1984/LearningThePooh/raw/master/LearnThePooh.crx)
+* [latest release](https://github.com/CN1984/LearningThePooh/releases)
 
 ## Install
 * Chrome (recommend)

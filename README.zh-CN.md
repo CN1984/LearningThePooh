@@ -2,7 +2,7 @@
 帮助一些成年人（或许未来包括孩子）快乐地完成来自`学习强国`的作业。
 
 ## 下载
-* [LearnThePooh.crx](https://github.com/CN1984/LearningThePooh/raw/master/LearnThePooh.crx)
+* [最新发布](https://github.com/CN1984/LearningThePooh/releases)
 
 ## 安装方法
 * Chrome （推荐）
