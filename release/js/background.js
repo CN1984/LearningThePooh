@@ -1,4 +1,4 @@
-let loginTabId, runningWindowId, lastTypeUrl = {};
+let loginTabId, runningWindowId, windowWidth, windowHeight, lastTypeUrl = {};
 
 //检查用户积分
 function checkPoints(callback) {
@@ -30,16 +30,7 @@ function checkPoints(callback) {
                 chrome.tabs.create({"url": "https://pc.xuexi.cn/points/login.html?ref=https://pc.xuexi.cn/points/my-points.html"}, function (tab) {
                     loginTabId = tab.id;
                     chrome.tabs.update(tab.id, {"muted": true});
-                    chrome.notifications.create({
-                        "type": "basic",
-                        "iconUrl": "img/128.png",
-                        "title": chrome.i18n.getMessage("extLogin"),
-                        "message": ""
-                    }, function (notificationId) {
-                        setTimeout(function () {
-                            chrome.notifications.clear(notificationId);
-                        }, 5000);
-                    });
+                    notice(chrome.i18n.getMessage("extLogin"));
                 })
             }
         }
@@ -119,17 +110,7 @@ function autoEarnPoints(list, wait) {
             if (runningWindowId) {
                 chrome.windows.remove(runningWindowId);
             }
-            chrome.tabs.create({"url": "https://pc.xuexi.cn/points/my-points.html"});
-            chrome.notifications.create({
-                "type": "basic",
-                "iconUrl": "img/128.png",
-                "title": chrome.i18n.getMessage("extFinish"),
-                "message": ""
-            }, function (notificationId) {
-                setTimeout(function () {
-                    chrome.notifications.clear(notificationId);
-                }, 5000);
-            });
+            notice(chrome.i18n.getMessage("extFinish"));
         }
     });
 }
@@ -198,22 +179,29 @@ function shuffle(array) {
     }
 }
 
+//通知
+function notice(title, message = "") {
+    chrome.notifications.create({
+        "type": "basic",
+        "iconUrl": "img/128.png",
+        "title": title,
+        "message": message
+    }, function (notificationId) {
+        setTimeout(function () {
+            chrome.notifications.clear(notificationId);
+        }, 5000);
+    });
+}
 
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
     let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
-    if (chromeVersion < 44) {
-        chrome.notifications.create({
-            "type": "basic",
-            "iconUrl": "img/128.png",
-            "title": chrome.i18n.getMessage("extVersion"),
-            "message": ""
-        }, function (notificationId) {
-            setTimeout(function () {
-                chrome.notifications.clear(notificationId);
-            }, 5000);
-        });
+    if (chromeVersion < 45) {
+        notice(chrome.i18n.getMessage("extVersion"));
     } else {
+        //每次点击随机一次窗口大小
+        windowWidth = 320 + Math.floor(Math.random() * 160);
+        windowHeight = 320 + Math.floor(Math.random() * 160);
         //通过查询积分来判断是否登录
         checkPoints(function (res) {
             if (runningWindowId) {
@@ -229,20 +217,11 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                     "type": "popup",
                     "top": 0,
                     "left": 0,
-                    "width": 220,
-                    "height": 1
+                    "width": windowWidth,
+                    "height": windowHeight
                 }, function (window) {
                     runningWindowId = window.id;
-                    chrome.notifications.create({
-                        "type": "basic",
-                        "iconUrl": "img/128.png",
-                        "title": chrome.i18n.getMessage("extWorking"),
-                        "message": chrome.i18n.getMessage("extWarning")
-                    }, function (notificationId) {
-                        setTimeout(function () {
-                            chrome.notifications.clear(notificationId);
-                        }, 5000);
-                    });
+                    notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
                 })
             }
         });
@@ -259,21 +238,12 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                 "type": "popup",
                 "top": 0,
                 "left": 0,
-                "width": 220,
-                "height": 1
+                "width": windowWidth,
+                "height": windowHeight
             }, function (window) {
                 chrome.tabs.remove(loginTabId);
                 runningWindowId = window.id;
-                chrome.notifications.create({
-                    "type": "basic",
-                    "iconUrl": "img/128.png",
-                    "title": chrome.i18n.getMessage("extWorking"),
-                    "message": chrome.i18n.getMessage("extWarning")
-                }, function (notificationId) {
-                    setTimeout(function () {
-                        chrome.notifications.clear(notificationId);
-                    }, 5000);
-                });
+                notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
             })
         }
     }

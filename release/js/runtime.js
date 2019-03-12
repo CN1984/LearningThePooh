@@ -2,7 +2,7 @@ function randomInterval() {
     let timeout = 1000 + Math.floor(Math.random() * 1000);
     setTimeout(function () {
         let scrollYMax = document.body.scrollHeight - document.body.clientHeight;
-        let scrollY = window.scrollY + Math.floor(Math.random() * 20);
+        let scrollY = window.scrollY + Math.floor(Math.random() * 100);
         window.scrollTo(window.scrollX, scrollY < scrollYMax ? scrollY : 0);
 
         let playBtn = document.querySelector(".prism-big-play-btn");
