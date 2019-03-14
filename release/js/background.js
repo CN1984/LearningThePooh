@@ -55,14 +55,14 @@ function autoEarnPoints(list, wait) {
                     if (res[key].currentScore < res[key].dayMaxScore) {
                         type = "article";
                         mode = "quantity";
-                        newWait = 35 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                        newWait = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
                     }
                     break;
                 case 2:
                     if (res[key].currentScore < res[key].dayMaxScore) {
                         type = "video";
                         mode = "quantity";
-                        newWait = 35 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                        newWait = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
                     }
                     break;
                 case 1002:
@@ -100,7 +100,10 @@ function autoEarnPoints(list, wait) {
                         if (typeof window !== "undefined") {
                             addUsedUrl(url);
                             lastTypeUrl[type] = url;
-                            chrome.tabs.update(window.tabs[0].id, {"url": url, "muted": true});
+                            chrome.tabs.sendMessage(window.tabs[0].id, {
+                                "method": "redirect",
+                                "data": url
+                            });
                             autoEarnPoints(list, newWait);
                         }
                     });
@@ -193,16 +196,35 @@ function notice(title, message = "") {
     });
 }
 
+//创建窗口
+function createWindow(url = "https://www.xuexi.cn") {
+    chrome.windows.create({
+        "url": url,
+        "focused": true,
+        "type": "popup",
+        "top": 0,
+        "left": 0,
+        "width": windowWidth,
+        "height": windowHeight
+    }, function (window) {
+        if (loginTabId) {
+            chrome.tabs.remove(loginTabId);
+        }
+        runningWindowId = window.id;
+        chrome.tabs.update(window.tabs[0].id, {"muted": true});
+        notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
+    })
+}
+
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
     let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
     if (chromeVersion < 45) {
         notice(chrome.i18n.getMessage("extVersion"));
     } else {
-        //每次点击随机一次窗口大小
         windowWidth = 320 + Math.floor(Math.random() * 160);
         windowHeight = 320 + Math.floor(Math.random() * 160);
-        //通过查询积分来判断是否登录
+
         checkPoints(function (res) {
             if (runningWindowId) {
                 chrome.windows.get(runningWindowId, function (window) {
@@ -211,18 +233,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                     }
                 });
             } else {
-                chrome.windows.create({
-                    "url": "https://www.xuexi.cn",
-                    "focused": true,
-                    "type": "popup",
-                    "top": 0,
-                    "left": 0,
-                    "width": windowWidth,
-                    "height": windowHeight
-                }, function (window) {
-                    runningWindowId = window.id;
-                    notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
-                })
+                createWindow();
             }
         });
     }
@@ -232,19 +243,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (tabId === loginTabId) {
         if (changeInfo.url === "https://pc.xuexi.cn/points/my-points.html") {
-            chrome.windows.create({
-                "url": "https://www.xuexi.cn",
-                "focused": true,
-                "type": "popup",
-                "top": 0,
-                "left": 0,
-                "width": windowWidth,
-                "height": windowHeight
-            }, function (window) {
-                chrome.tabs.remove(loginTabId);
-                runningWindowId = window.id;
-                notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
-            })
+            createWindow();
         }
     }
 });
@@ -256,6 +255,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
     }
 });
 
+//窗口移除事件
 chrome.windows.onRemoved.addListener(function (windowId) {
     if (windowId === runningWindowId) {
         chrome.browserAction.setBadgeText({"text": ""});
