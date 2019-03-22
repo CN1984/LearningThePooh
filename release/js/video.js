@@ -32,7 +32,13 @@ function autoPlay() {
         let playBtn = document.querySelector(".prism-big-play-btn");
         if (playBtn && playBtn.style.display === "block") {
             playBtn.click();
+        } else {
+            playBtn = document.querySelector(".prism-play-btn");
+            if (playBtn && !playBtn.classList.contains('playing')) {
+                playBtn.click();
+            }
         }
+        autoPlay();
     }, 1000 + Math.floor(Math.random() * 1000));
 }
 

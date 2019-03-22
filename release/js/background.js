@@ -5,9 +5,9 @@ function checkPoints(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "https://pc-api.xuexi.cn/open/api/score/today/queryrate", true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                let res = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let res = JSON.parse(xhr.responseText);
+            if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
                 let points = 0;
                 let ruleList = [1, 2, 9, 1002, 1003];
                 for (let key in res.data) {
@@ -312,7 +312,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 }
                                 shuffle(list["article"]);
                                 shuffle(list["video"]);
-                                autoEarnPoints(list, 1000 + Math.floor(Math.random()* 1000));
+                                autoEarnPoints(list, 1000 + Math.floor(Math.random() * 1000));
                             });
                         }
                     }

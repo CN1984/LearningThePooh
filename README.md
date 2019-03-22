@@ -15,7 +15,7 @@ Help some adults (maybe children in future) to happily finish their daily homewo
   1. Enter `se://extensions/` in the browser address bar.
   2. Drag `LearningThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 * 360 Extreme Browser
-  1. Enter `se://extensions/` in the browser address bar.
+  1. Enter `chrome://myextensions/extensions/` in the browser address bar.
   2. Drag `LearningThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
 
 ## Usage
