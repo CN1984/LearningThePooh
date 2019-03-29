@@ -26,5 +26,13 @@
   "extFinish": {
     "message": "学习完毕，明天见",
     "description": ""
+  },
+  "extSafeMode": {
+    "message": "安全模式",
+    "description": ""
+  },
+  "extFlashMode": {
+    "message": "闪电模式 (实验性)",
+    "description": ""
   }
 }

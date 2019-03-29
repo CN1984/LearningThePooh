@@ -23,8 +23,10 @@
 2. 如果你没有登录账号，扫描打开页面中的二维码进行登录。
 3. 等待打开的小窗口中的程序完成“学习”，你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口。
 
-## 已知问题
-* 无
+## 闪电模式
+* 同时运行多个窗口实现学习速度加快。
+* 右键点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png)，在菜单中选择 `闪电模式`。
+* 本功能或存在风险，请照顾好自己。
 
 ## 许可证
 ![GPLv3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)

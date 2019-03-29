@@ -26,5 +26,13 @@
   "extFinish": {
     "message": "Complete, see you",
     "description": ""
+  },
+  "extSafeMode": {
+    "message": "Safe mode",
+    "description": ""
+  },
+  "extFlashMode": {
+    "message": "Flash mode (experimental)",
+    "description": ""
   }
 }

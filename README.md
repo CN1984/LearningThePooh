@@ -23,8 +23,10 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 * If don't have login your account, scan the QR code in the opening page to login.
 * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
 
-## Known Issues
-* None.
+## Flash Mode
+* Running multiple windows at the same time to achieve learning speed up.
+* Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Flash mode` in the menu.
+* This feature may be risky, please take care of yourself.
 
 ## License
 ![GPLv3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)
