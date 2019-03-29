@@ -18,7 +18,7 @@ function getDataUrl() {
 
 chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
-        if (response.runtime === 1) {
+        if (response.runtime) {
             getDataUrl();
         }
     }
