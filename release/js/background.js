@@ -1,13 +1,15 @@
-let loginTabId, runningWindowId, windowWidth, windowHeight, lastTypeUrl = {};
+let loginTabId, runningWindowId, lastTypeUrl = {};
+let windowWidth = 320 + Math.floor(Math.random() * 160);
+let windowHeight = 320 + Math.floor(Math.random() * 160);
 
 //检查用户积分
 function checkPoints(callback) {
     let xhr = new XMLHttpRequest();
     xhr.open("GET", "https://pc-api.xuexi.cn/open/api/score/today/queryrate", true);
     xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                let res = JSON.parse(xhr.responseText);
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            let res = JSON.parse(xhr.responseText);
+            if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
                 let points = 0;
                 let ruleList = [1, 2, 9, 1002, 1003];
                 for (let key in res.data) {
@@ -19,7 +21,9 @@ function checkPoints(callback) {
                     }
                 }
                 chrome.browserAction.setBadgeText({"text": points.toString()});
-                callback(res.data);
+                if (typeof callback === "function") {
+                    callback(res.data);
+                }
             } else {
                 if (loginTabId) {
                     chrome.tabs.remove(loginTabId);
@@ -40,79 +44,83 @@ function checkPoints(callback) {
 
 //自动积分
 function autoEarnPoints(list, wait) {
-    let type;
-    let mode;
     let url;
     let newWait = 0;
+    setTimeout(function () {
+        if (runningWindowId) {
+            checkPoints(function (res) {
+                let type;
+                let mode;
 
-    checkPoints(function (res) {
-        for (let key in res) {
-            if (!res.hasOwnProperty(key)) {
-                continue;
-            }
-            switch (res[key].ruleId) {
-                case 1:
-                    if (res[key].currentScore < res[key].dayMaxScore) {
-                        type = "article";
-                        mode = "quantity";
-                        newWait = 35 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                for (let key in res) {
+                    if (!res.hasOwnProperty(key)) {
+                        continue;
                     }
-                    break;
-                case 2:
-                    if (res[key].currentScore < res[key].dayMaxScore) {
-                        type = "video";
-                        mode = "quantity";
-                        newWait = 35 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                    switch (res[key].ruleId) {
+                        case 1:
+                            if (res[key].currentScore < res[key].dayMaxScore) {
+                                type = "article";
+                                mode = "quantity";
+                                newWait = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
+                            }
+                            break;
+                        case 2:
+                            if (res[key].currentScore < res[key].dayMaxScore) {
+                                type = "video";
+                                mode = "quantity";
+                                newWait = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
+                            }
+                            break;
+                        case 1002:
+                            if (res[key].currentScore < res[key].dayMaxScore) {
+                                type = "article";
+                                mode = "duration";
+                                newWait = 245 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                            }
+                            break;
+                        case 1003:
+                            if (res[key].currentScore < res[key].dayMaxScore) {
+                                type = "video";
+                                mode = "duration";
+                                newWait = 305 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                            }
+                            break;
                     }
-                    break;
-                case 1002:
-                    if (res[key].currentScore < res[key].dayMaxScore) {
-                        type = "article";
-                        mode = "duration";
-                        newWait = 245 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                    if (type) {
+                        break;
                     }
-                    break;
-                case 1003:
-                    if (res[key].currentScore < res[key].dayMaxScore) {
-                        type = "video";
-                        mode = "duration";
-                        newWait = 305 * 1000 + Math.floor(Math.random() * 25 * 1000);
-                    }
-                    break;
-            }
-            if (type) {
-                break;
-            }
-        }
+                }
 
-        if (type) {
-            if (mode === "duration" && lastTypeUrl.hasOwnProperty(type)) {
-                url = lastTypeUrl[type];
-            } else if (list[type].length) {
-                url = list[type].pop();
-            }
-        }
+                if (type) {
+                    if (mode === "duration" && lastTypeUrl.hasOwnProperty(type)) {
+                        url = lastTypeUrl[type];
+                    }
+                    if (!url && list[type].length) {
+                        url = list[type].pop();
+                    }
+                }
 
-        if (url) {
-            setTimeout(function () {
-                if (runningWindowId) {
+                if (url) {
                     chrome.windows.get(runningWindowId, {"populate": true}, function (window) {
                         if (typeof window !== "undefined") {
                             addUsedUrl(url);
                             lastTypeUrl[type] = url;
-                            chrome.tabs.update(window.tabs[0].id, {"url": url, "muted": true});
+                            chrome.tabs.sendMessage(window.tabs[0].id, {
+                                "method": "redirect",
+                                "data": url
+                            });
                             autoEarnPoints(list, newWait);
                         }
                     });
+                } else {
+                    if (runningWindowId) {
+                        chrome.windows.remove(runningWindowId);
+                    }
+                    notice(chrome.i18n.getMessage("extFinish"));
                 }
-            }, wait);
-        } else {
-            if (runningWindowId) {
-                chrome.windows.remove(runningWindowId);
-            }
-            notice(chrome.i18n.getMessage("extFinish"));
+            });
         }
-    });
+    }, wait);
 }
 
 //获取已使用网址
@@ -122,7 +130,9 @@ function getUsedUrl(callback) {
         if (items.hasOwnProperty("used_url")) {
             data = items["used_url"];
         }
-        callback(data);
+        if (typeof callback === "function") {
+            callback(data);
+        }
     });
 }
 
@@ -138,7 +148,7 @@ function addUsedUrl(url) {
             if (data.indexOf(id) === -1) {
                 data.push(id);
                 if (data.length > 1000) {
-                    data.slice(-1000);
+                    data = data.slice(-1000);
                 }
             }
             chrome.storage.local.set({"used_url": data});
@@ -193,16 +203,29 @@ function notice(title, message = "") {
     });
 }
 
+//创建窗口
+function createWindow(url) {
+    chrome.windows.create({
+        "url": url ? url : "https://www.xuexi.cn",
+        "focused": true,
+        "type": "popup",
+        "top": 0,
+        "left": 0,
+        "width": windowWidth,
+        "height": windowHeight
+    }, function (window) {
+        runningWindowId = window.id;
+        chrome.tabs.update(window.tabs[0].id, {"muted": true});
+        notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
+    })
+}
+
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
     let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
     if (chromeVersion < 45) {
         notice(chrome.i18n.getMessage("extVersion"));
     } else {
-        //每次点击随机一次窗口大小
-        windowWidth = 320 + Math.floor(Math.random() * 160);
-        windowHeight = 320 + Math.floor(Math.random() * 160);
-        //通过查询积分来判断是否登录
         checkPoints(function (res) {
             if (runningWindowId) {
                 chrome.windows.get(runningWindowId, function (window) {
@@ -211,18 +234,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                     }
                 });
             } else {
-                chrome.windows.create({
-                    "url": "https://www.xuexi.cn",
-                    "focused": true,
-                    "type": "popup",
-                    "top": 0,
-                    "left": 0,
-                    "width": windowWidth,
-                    "height": windowHeight
-                }, function (window) {
-                    runningWindowId = window.id;
-                    notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
-                })
+                createWindow();
             }
         });
     }
@@ -232,19 +244,8 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (tabId === loginTabId) {
         if (changeInfo.url === "https://pc.xuexi.cn/points/my-points.html") {
-            chrome.windows.create({
-                "url": "https://www.xuexi.cn",
-                "focused": true,
-                "type": "popup",
-                "top": 0,
-                "left": 0,
-                "width": windowWidth,
-                "height": windowHeight
-            }, function (window) {
-                chrome.tabs.remove(loginTabId);
-                runningWindowId = window.id;
-                notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
-            })
+            chrome.tabs.remove(loginTabId);
+            createWindow();
         }
     }
 });
@@ -256,6 +257,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
     }
 });
 
+//窗口移除事件
 chrome.windows.onRemoved.addListener(function (windowId) {
     if (windowId === runningWindowId) {
         chrome.browserAction.setBadgeText({"text": ""});
@@ -301,8 +303,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                             }
 
                                             if (url) {
-                                                let type = getUrlType(url);
                                                 let urlId = getUrlId(url);
+                                                let type = getUrlType(url);
                                                 if (type && urlId && list[type].indexOf(url) === -1 && usedUrl.indexOf(urlId) === -1) {
                                                     list[type].push(url);
                                                 }
@@ -312,7 +314,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 }
                                 shuffle(list["article"]);
                                 shuffle(list["video"]);
-                                autoEarnPoints(list, 1000 + Math.floor(Math.random()* 1000));
+                                autoEarnPoints(list, 1000 + Math.floor(Math.random() * 1000));
                             });
                         }
                     }
