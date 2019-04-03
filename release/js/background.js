@@ -1,6 +1,8 @@
-let loginTabId, runningWindowIds = [], flashMode = 0, lastFlash = {}, modeMenu = [];
+let loginTabId = 0, runningWindowIds = [], flashMode = 0, lastFlash = {}, modeMenu = [];
 let windowWidth = 320 + Math.floor(Math.random() * 160);
 let windowHeight = 320 + Math.floor(Math.random() * 160);
+let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
+let firefoxVersion = (/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 
 //生成运行模式菜单
 chrome.storage.local.get("flash_mode", function (items) {
@@ -33,7 +35,6 @@ chrome.storage.local.get("flash_mode", function (items) {
         })
     ];
 });
-
 
 //检查用户积分
 function checkPoints(callback) {
@@ -382,13 +383,18 @@ function notice(title, message = "") {
 function createWindow(url, callback) {
     chrome.windows.create({
         "url": url ? url : "https://www.xuexi.cn",
-        "focused": true,
         "type": "popup",
         "top": 0,
         "left": 0,
         "width": windowWidth,
         "height": windowHeight
     }, function (window) {
+        if (firefoxVersion) {
+            chrome.windows.update(window.id, {
+                "top": 0,
+                "left": 0,
+            });
+        }
         runningWindowIds.push(window.id);
         chrome.tabs.update(window.tabs[0].id, {"muted": true});
         if (!url) {
@@ -421,8 +427,7 @@ function closeWindow(windowId) {
 
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
-    let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
-    if (chromeVersion < 45) {
+    if (chromeVersion < 45 && firefoxVersion < 45) {
         notice(chrome.i18n.getMessage("extVersion"));
     } else {
         checkPoints(function (res) {
@@ -453,7 +458,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 //标签页移除事件
 chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
     if (tabId === loginTabId) {
-        loginTabId = undefined;
+        loginTabId = 0;
     }
 });
 

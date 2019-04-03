@@ -6,17 +6,17 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 
 ## Install
 * Chrome (recommend)
-  1. Enter `chrome://extensions/` in the browser address bar.
-  2. Drag `LearningThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+  * [Chrome Web Store](https://chrome.google.com/webstore/detail/idnlblbfphcnipfoonolpfgglnaeodml)
+  * Offline install: Enter `chrome://extensions/` in the browser address bar and drag `*.crx` file to the page.
+* Firefox
+  * [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
+  * Offline install: Enter `about:addons` in the browser address bar and drag `*.xpi` file to the page.
 * QQ Browser
-  1. Enter `qqbrowser://extensions/manage` in the browser address bar.
-  2. Drag `LearningThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+  * Offline install: Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
 * 360 Security Browser
-  1. Enter `se://extensions/` in the browser address bar.
-  2. Drag `LearningThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+  * Offline install: Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
 * 360 Extreme Browser
-  1. Enter `chrome://myextensions/extensions/` in the browser address bar.
-  2. Drag `LearningThePooh.crx` file to the page, or check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder.
+  * Offline install: Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
 
 ## Usage
 * Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
