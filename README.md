@@ -5,23 +5,28 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 * [latest release](https://github.com/CN1984/LearningThePooh/releases)
 
 ## Install
-* Chrome (recommend)
+* Chrome (Recommend)
   * [Chrome Web Store](https://chrome.google.com/webstore/detail/idnlblbfphcnipfoonolpfgglnaeodml)
-  * Offline install: Enter `chrome://extensions/` in the browser address bar and drag `*.crx` file to the page.
-* Firefox
-  * [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
-  * Offline install: Enter `about:addons` in the browser address bar and drag `*.xpi` file to the page.
+  * Or enter `chrome://extensions/` in the browser address bar and drag `*.crx` file to the page.
 * QQ Browser
-  * Offline install: Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
+  * Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
 * 360 Security Browser
-  * Offline install: Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
+  * Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
 * 360 Extreme Browser
-  * Offline install: Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
+  * Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
+* Firefox (Desktop/Mobile)
+  * [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
 
 ## Usage
-* Please click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
-* If don't have login your account, scan the QR code in the opening page to login.
-* Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
+* Desktop Browser
+  * Click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
+  * If don't have login your account, use the official app to scan the QR code in the opening page to login.
+  * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
+* Mobile Browser
+  * Click the `Learning the Pooh` in browser's menu to start running program.
+  * If don't have login your account, use the official app on another phone to scan the QR code in the opening page to login.
+  * Waiting for the program to finish 'study' on the browser, keep the phone screen on and don't do anything else till the end.
+  * Make sure your phone is connecting a WLAN, because watching video will consume a lot of network traffic.
 
 ## Flash Mode
 * Running multiple windows at the same time to achieve learning speed up.

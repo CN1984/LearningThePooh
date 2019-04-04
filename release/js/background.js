@@ -3,38 +3,41 @@ let windowWidth = 320 + Math.floor(Math.random() * 160);
 let windowHeight = 320 + Math.floor(Math.random() * 160);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 let firefoxVersion = (/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
+let isMobile = !!(/Mobile/.exec(navigator.userAgent));
 
 //生成运行模式菜单
-chrome.storage.local.get("flash_mode", function (items) {
-    if (items.hasOwnProperty("flash_mode")) {
-        flashMode = items["flash_mode"];
-    }
-    flashMode ? chrome.browserAction.setIcon({"path": "img/16w.png"}) : chrome.browserAction.setIcon({"path": "img/16.png"});
-    modeMenu = [
-        chrome.contextMenus.create({
-            "contexts": ["browser_action"],
-            "type": "radio",
-            "title": chrome.i18n.getMessage("extSafeMode"),
-            "checked": !flashMode,
-            "onclick": function (info, tab) {
-                flashMode = 0;
-                chrome.browserAction.setIcon({"path": "img/16.png"});
-                chrome.storage.local.set({"flash_mode": flashMode});
-            }
-        }),
-        chrome.contextMenus.create({
-            "contexts": ["browser_action"],
-            "type": "radio",
-            "title": chrome.i18n.getMessage("extFlashMode"),
-            "checked": !!flashMode,
-            "onclick": function (info, tab) {
-                flashMode = 1;
-                chrome.browserAction.setIcon({"path": "img/16w.png"});
-                chrome.storage.local.set({"flash_mode": flashMode});
-            }
-        })
-    ];
-});
+if (!isMobile) {
+    chrome.storage.local.get("flash_mode", function (items) {
+        if (items.hasOwnProperty("flash_mode")) {
+            flashMode = items["flash_mode"];
+        }
+        flashMode ? chrome.browserAction.setIcon({"path": "img/16w.png"}) : chrome.browserAction.setIcon({"path": "img/16.png"});
+        modeMenu = [
+            chrome.contextMenus.create({
+                "contexts": ["browser_action"],
+                "type": "radio",
+                "title": chrome.i18n.getMessage("extSafeMode"),
+                "checked": !flashMode,
+                "onclick": function (info, tab) {
+                    flashMode = 0;
+                    chrome.browserAction.setIcon({"path": "img/16.png"});
+                    chrome.storage.local.set({"flash_mode": flashMode});
+                }
+            }),
+            chrome.contextMenus.create({
+                "contexts": ["browser_action"],
+                "type": "radio",
+                "title": chrome.i18n.getMessage("extFlashMode"),
+                "checked": !!flashMode,
+                "onclick": function (info, tab) {
+                    flashMode = 1;
+                    chrome.browserAction.setIcon({"path": "img/16w.png"});
+                    chrome.storage.local.set({"flash_mode": flashMode});
+                }
+            })
+        ];
+    });
+}
 
 //检查用户积分
 function checkPoints(callback) {
@@ -54,7 +57,9 @@ function checkPoints(callback) {
                         points += res.data[key].currentScore;
                     }
                 }
-                chrome.browserAction.setBadgeText({"text": points.toString()});
+                if (!isMobile) {
+                    chrome.browserAction.setBadgeText({"text": points.toString()});
+                }
                 if (typeof callback === "function") {
                     callback(res.data);
                 }
@@ -66,10 +71,12 @@ function checkPoints(callback) {
                     closeWindow();
                 }
                 chrome.tabs.create({"url": "https://pc.xuexi.cn/points/login.html?ref=https://pc.xuexi.cn/points/my-points.html"}, function (tab) {
+                    if (!isMobile) {
+                        chrome.tabs.update(tab.id, {"muted": true});
+                        notice(chrome.i18n.getMessage("extLogin"));
+                    }
                     loginTabId = tab.id;
-                    chrome.tabs.update(tab.id, {"muted": true});
-                    notice(chrome.i18n.getMessage("extLogin"));
-                })
+                });
             }
         }
     };
@@ -81,7 +88,7 @@ function autoEarnPoints(list, wait) {
     let url;
     let newWait = 0;
     setTimeout(function () {
-        if (runningWindowIds.length) {
+        if (runningWindowIds.length || loginTabId) {
             checkPoints(function (res) {
                 if (flashMode) {
                     let urlArticle;
@@ -248,16 +255,29 @@ function autoEarnPoints(list, wait) {
                         }
                     }
 
-                    if (url) {
-                        chrome.windows.get(runningWindowIds[0], {"populate": true}, function (window) {
-                            if (typeof window !== "undefined") {
-                                addUsedUrl(url);
-                                chrome.tabs.update(window.tabs[0].id, {"url": url, "muted": true});
-                                autoEarnPoints(list, newWait);
-                            }
-                        });
+                    if (!isMobile) {
+                        if (url) {
+                            chrome.windows.get(runningWindowIds[0], {"populate": true}, function (window) {
+                                if (typeof window !== "undefined") {
+                                    addUsedUrl(url);
+                                    chrome.tabs.update(window.tabs[window.tabs.length - 1].id, {
+                                        "url": url,
+                                        "muted": true
+                                    });
+                                    autoEarnPoints(list, newWait);
+                                }
+                            });
+                        } else {
+                            closeWindow();
+                        }
                     } else {
-                        closeWindow();
+                        if (url) {
+                            addUsedUrl(url);
+                            chrome.tabs.update(loginTabId, {"url": url});
+                            autoEarnPoints(list, newWait);
+                        } else {
+                            chrome.tabs.remove(loginTabId);
+                        }
                     }
                 }
             });
@@ -367,16 +387,20 @@ function shuffle(array) {
 
 //通知
 function notice(title, message = "") {
-    chrome.notifications.create({
-        "type": "basic",
-        "iconUrl": "img/128.png",
-        "title": title,
-        "message": message
-    }, function (notificationId) {
-        setTimeout(function () {
-            chrome.notifications.clear(notificationId);
-        }, 5000);
-    });
+    if (!isMobile) {
+        chrome.notifications.create({
+            "type": "basic",
+            "iconUrl": "img/128.png",
+            "title": title,
+            "message": message
+        }, function (notificationId) {
+            setTimeout(function () {
+                chrome.notifications.clear(notificationId);
+            }, 5000);
+        });
+    } else {
+        alert(title);
+    }
 }
 
 //创建窗口
@@ -396,13 +420,13 @@ function createWindow(url, callback) {
             });
         }
         runningWindowIds.push(window.id);
-        chrome.tabs.update(window.tabs[0].id, {"muted": true});
         if (!url) {
             lastFlash = {};
             chrome.contextMenus.update(modeMenu[0], {"enabled": false});
             chrome.contextMenus.update(modeMenu[1], {"enabled": false});
             notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
         }
+        chrome.tabs.update(window.tabs[window.tabs.length - 1].id, {"muted": true});
         if (typeof callback === "function") {
             callback(window);
         }
@@ -427,19 +451,29 @@ function closeWindow(windowId) {
 
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
-    if (chromeVersion < 45 && firefoxVersion < 45) {
+    if (chromeVersion < 45 && firefoxVersion < (isMobile ? 55 : 48)) {
         notice(chrome.i18n.getMessage("extVersion"));
     } else {
         checkPoints(function (res) {
-            if (runningWindowIds.length) {
-                for (let key in runningWindowIds) {
-                    if (!runningWindowIds.hasOwnProperty(key)) {
-                        continue;
+            if (!isMobile) {
+                if (runningWindowIds.length) {
+                    for (let key in runningWindowIds) {
+                        if (!runningWindowIds.hasOwnProperty(key)) {
+                            continue;
+                        }
+                        chrome.windows.update(runningWindowIds[key], {"focused": true, "state": "normal"});
                     }
-                    chrome.windows.update(runningWindowIds[key], {"focused": true, "state": "normal"});
+                } else {
+                    createWindow();
                 }
             } else {
-                createWindow();
+                if (loginTabId) {
+                    chrome.tabs.update(loginTabId, {"active": true});
+                } else {
+                    chrome.tabs.create({"url": "https://www.xuexi.cn"}, function (tab) {
+                        loginTabId = tab.id;
+                    });
+                }
             }
         });
     }
@@ -449,8 +483,12 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (tabId === loginTabId) {
         if (changeInfo.url === "https://pc.xuexi.cn/points/my-points.html") {
-            chrome.tabs.remove(loginTabId);
-            createWindow();
+            if (!isMobile) {
+                chrome.tabs.remove(loginTabId);
+                createWindow();
+            } else {
+                chrome.tabs.update(loginTabId, {"url": "https://www.xuexi.cn"});
+            }
         }
     }
 });
@@ -463,18 +501,20 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 });
 
 //窗口移除事件
-chrome.windows.onRemoved.addListener(function (windowId) {
-    let windowsIndex = runningWindowIds.indexOf(windowId);
-    if (windowsIndex !== -1) {
-        runningWindowIds.splice(windowsIndex, 1);
-    }
+if (!isMobile) {
+    chrome.windows.onRemoved.addListener(function (windowId) {
+        let windowsIndex = runningWindowIds.indexOf(windowId);
+        if (windowsIndex !== -1) {
+            runningWindowIds.splice(windowsIndex, 1);
+        }
 
-    if (runningWindowIds.length === 0) {
-        chrome.browserAction.setBadgeText({"text": ""});
-        chrome.contextMenus.update(modeMenu[0], {"enabled": true});
-        chrome.contextMenus.update(modeMenu[1], {"enabled": true});
-    }
-});
+        if (runningWindowIds.length === 0) {
+            chrome.browserAction.setBadgeText({"text": ""});
+            chrome.contextMenus.update(modeMenu[0], {"enabled": true});
+            chrome.contextMenus.update(modeMenu[1], {"enabled": true});
+        }
+    });
+}
 
 //通信事件
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -539,12 +579,10 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             xhr.send();
             break;
         case "checkTab":
-            if (runningWindowIds.length) {
-                if (runningWindowIds.indexOf(sender.tab.windowId) !== -1) {
-                    sendResponse({
-                        runtime: (flashMode ? 2 : 1)
-                    });
-                }
+            if (runningWindowIds.indexOf(sender.tab.windowId) !== -1 || loginTabId === sender.tab.id) {
+                sendResponse({
+                    runtime: (flashMode ? 2 : 1)
+                });
             }
             break;
     }
