@@ -229,14 +229,14 @@ function autoEarnPoints(list, wait) {
                                 if (res[key].currentScore < res[key].dayMaxScore) {
                                     type = "article";
                                     mode = "duration";
-                                    newWait = 245 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                                    newWait = 125 * 1000 + Math.floor(Math.random() * 55 * 1000);
                                 }
                                 break;
                             case 1003:
                                 if (res[key].currentScore < res[key].dayMaxScore) {
                                     type = "video";
                                     mode = "duration";
-                                    newWait = 305 * 1000 + Math.floor(Math.random() * 25 * 1000);
+                                    newWait = 185 * 1000 + Math.floor(Math.random() * 55 * 1000);
                                 }
                                 break;
                         }
@@ -256,7 +256,7 @@ function autoEarnPoints(list, wait) {
                     }
 
                     if (!isMobile) {
-                        if (url) {
+                        if (url && runningWindowIds.length) {
                             chrome.windows.get(runningWindowIds[0], {"populate": true}, function (window) {
                                 if (typeof window !== "undefined") {
                                     addUsedUrl(url);
@@ -271,7 +271,7 @@ function autoEarnPoints(list, wait) {
                             closeWindow();
                         }
                     } else {
-                        if (url) {
+                        if (url && loginTabId) {
                             addUsedUrl(url);
                             chrome.tabs.update(loginTabId, {"url": url});
                             autoEarnPoints(list, newWait);
