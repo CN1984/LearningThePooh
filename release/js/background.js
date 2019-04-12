@@ -49,19 +49,19 @@ function checkPoints(callback) {
             if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
                 let points = 0;
                 let ruleList = [1, 2, 9, 1002, 1003];
-                for (let key in res.data) {
-                    if (!res.data.hasOwnProperty(key)) {
+                for (let key in res.data.dayScoreDtos) {
+                    if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
                         continue;
                     }
-                    if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
-                        points += res.data[key].currentScore;
+                    if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
+                        points += res.data.dayScoreDtos[key].currentScore;
                     }
                 }
                 if (!isMobile) {
                     chrome.browserAction.setBadgeText({"text": points.toString()});
                 }
                 if (typeof callback === "function") {
-                    callback(res.data);
+                    callback(res.data.dayScoreDtos);
                 }
             } else {
                 if (loginTabId) {
