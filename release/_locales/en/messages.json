@@ -34,5 +34,21 @@
   "extFlashMode": {
     "message": "Flash mode (experimental)",
     "description": ""
+  },
+  "extScoreApi": {
+    "message": "Score api changed",
+    "description": ""
+  },
+  "extIndexApi": {
+    "message": "Index api changed",
+    "description": ""
+  },
+  "extUpdate": {
+    "message": "Please update 'Learning the Pooh' version",
+    "description": ""
+  },
+  "extLink": {
+    "message": "No available link",
+    "description": ""
   }
 }

@@ -5,24 +5,24 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 * [latest release](https://github.com/CN1984/LearningThePooh/releases)
 
 ## Install
-* Chrome (Recommend)
+* Firefox (Recommend)
+  * [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
+* Chrome
   * [Chrome Web Store](https://chrome.google.com/webstore/detail/idnlblbfphcnipfoonolpfgglnaeodml)
-  * Or enter `chrome://extensions/` in the browser address bar and drag `*.crx` file to the page.
+  * Or enter `chrome://extensions/` in the browser address bar, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder from the unpacked `Source code`.
 * QQ Browser
   * Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
 * 360 Security Browser
   * Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
 * 360 Extreme Browser
   * Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
-* Firefox (Desktop/Mobile)
-  * [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
 
 ## Usage
 * Desktop Browser
   * Click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
   * If don't have login your account, use the official app to scan the QR code in the opening page to login.
   * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
-* Mobile Browser
+* Mobile Browser (Firefox)
   * Click the `Learning the Pooh` in browser's menu to start running program.
   * If don't have login your account, use the official app on another phone to scan the QR code in the opening page to login.
   * Waiting for the program to finish 'study' on the browser, keep the phone screen on and don't do anything else till the end.

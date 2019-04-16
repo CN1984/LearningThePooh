@@ -34,5 +34,21 @@
   "extFlashMode": {
     "message": "闪电模式 (实验性)",
     "description": ""
+  },
+  "extScoreApi": {
+    "message": "积分接口变更",
+    "description": ""
+  },
+  "extIndexApi": {
+    "message": "首页接口变更",
+    "description": ""
+  },
+  "extUpdate": {
+    "message": "请更新“学习小熊”版本",
+    "description": ""
+  },
+  "extLink": {
+    "message": "无可用链接",
+    "description": ""
   }
 }

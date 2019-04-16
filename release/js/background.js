@@ -47,21 +47,25 @@ function checkPoints(callback) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let res = JSON.parse(xhr.responseText);
             if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
-                let points = 0;
-                let ruleList = [1, 2, 9, 1002, 1003];
-                for (let key in res.data.dayScoreDtos) {
-                    if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
-                        continue;
+                if (checkScoreAPI(res)) {
+                    let points = 0;
+                    let ruleList = [1, 2, 9, 1002, 1003];
+                    for (let key in res.data.dayScoreDtos) {
+                        if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
+                            continue;
+                        }
+                        if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
+                            points += res.data.dayScoreDtos[key].currentScore;
+                        }
                     }
-                    if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
-                        points += res.data.dayScoreDtos[key].currentScore;
+                    if (!isMobile) {
+                        chrome.browserAction.setBadgeText({"text": points.toString()});
                     }
-                }
-                if (!isMobile) {
-                    chrome.browserAction.setBadgeText({"text": points.toString()});
-                }
-                if (typeof callback === "function") {
-                    callback(res.data.dayScoreDtos);
+                    if (typeof callback === "function") {
+                        callback(res.data.dayScoreDtos);
+                    }
+                } else {
+                    notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"))
                 }
             } else {
                 if (loginTabId) {
@@ -81,6 +85,30 @@ function checkPoints(callback) {
         }
     };
     xhr.send();
+}
+
+//检查积分接口数据结构
+function checkScoreAPI(res) {
+    if (res.hasOwnProperty("data")) {
+        if (res.data.hasOwnProperty("dayScoreDtos")) {
+            let pass = 0;
+            let ruleList = [1, 2, 9, 1002, 1003];
+            for (let key in res.data.dayScoreDtos) {
+                if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
+                    continue;
+                }
+                if (res.data.dayScoreDtos[key].hasOwnProperty("ruleId") && res.data.dayScoreDtos[key].hasOwnProperty("currentScore") && res.data.dayScoreDtos[key].hasOwnProperty("dayMaxScore")) {
+                    if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
+                        ++pass;
+                    }
+                }
+            }
+            if (pass === 5) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 //自动积分
@@ -328,9 +356,9 @@ function addUsedUrl(url) {
 //返回网址中的类型
 function getUrlType(url) {
     let type;
-    if (url.search("e43e220633a65f9b6d8b53712cba9caa") !== -1) {
+    if (url.indexOf("e43e220633a65f9b6d8b53712cba9caa") !== -1) {
         type = "article";
-    } else if (url.search("cf94877c29e1c685574e0226618fb1be") !== -1) {
+    } else if (url.indexOf("cf94877c29e1c685574e0226618fb1be") !== -1) {
         type = "video";
     }
     return type;
@@ -399,7 +427,7 @@ function notice(title, message = "") {
             }, 5000);
         });
     } else {
-        alert(title);
+        alert(title + "\n" + message);
     }
 }
 
@@ -446,6 +474,22 @@ function closeWindow(windowId) {
             chrome.windows.remove(windowId);
         }
         notice(chrome.i18n.getMessage("extFinish"));
+    }
+}
+
+//递归获取链接数组
+function getIndexLinks(res, linkArr = []) {
+    for (let key in res) {
+        if (!res.hasOwnProperty(key)) {
+            continue;
+        }
+        if (typeof res[key] === "string") {
+            if (key === "link") {
+                linkArr.push(res[key]);
+            }
+        } else if (typeof res[key] === "object" && res[key] !== null) {
+            getIndexLinks(res[key], linkArr);
+        }
     }
 }
 
@@ -519,71 +563,62 @@ if (!isMobile) {
 //通信事件
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     switch (request.method) {
-        case "dataIndex":
-            let xhr = new XMLHttpRequest();
-            xhr.open("GET", request.data, true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        let res = JSON.parse(xhr.responseText.substring(xhr.responseText.search("{"), xhr.responseText.length - 1));
-                        let list = {
-                            "article": [],
-                            "video": []
-                        };
-                        getUsedUrl(function (usedUrl) {
-                            for (let key in res) {
-                                if (!res.hasOwnProperty(key)) {
-                                    continue;
-                                }
-                                let obj = res[key];
-                                let objFirst = obj[Object.keys(obj)[0]];
-                                if (typeof objFirst === "object" && objFirst.length) {
-                                    for (let index in objFirst) {
-                                        if (!objFirst.hasOwnProperty(index)) {
-                                            continue;
-                                        }
-
-                                        let url;
-                                        let valve = objFirst[index];
-
-                                        if (valve.hasOwnProperty("art_id")) {
-                                            url = valve["art_id"];
-                                        } else if (valve.hasOwnProperty("static_page_url")) {
-                                            url = valve["static_page_url"];
-                                        }
-
-                                        if (url) {
-                                            let urlId = getUrlId(url);
-                                            let type = getUrlType(url);
-                                            let t = type ? type.substring(0, 1) : "";
-                                            if (type && urlId && list[type].indexOf(url) === -1) {
-                                                if (usedUrl.indexOf(urlId + "|" + t) === -1) {
-                                                    if (usedUrl.indexOf(urlId) === -1) {
-                                                        list[type].push(url);
-                                                    } else {
-                                                        addUsedUrl(url);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            shuffle(list["article"]);
-                            shuffle(list["video"]);
-                            autoEarnPoints(list, 1000 + Math.floor(Math.random() * 1000));
-                        });
-                    }
-                }
-            };
-            xhr.send();
-            break;
         case "checkTab":
             if (runningWindowIds.indexOf(sender.tab.windowId) !== -1 || loginTabId === sender.tab.id) {
                 sendResponse({
                     runtime: (flashMode ? 2 : 1)
                 });
             }
+            break;
+        case "checkIndex":
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://www.xuexi.cn/lgdata/index.json?_st=" + Math.floor(Date.now() / 6e4), true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let res = JSON.parse(xhr.responseText);
+                        let list = {
+                            "article": [],
+                            "video": []
+                        };
+                        getUsedUrl(function (usedUrl) {
+                            let linkArr = [];
+                            getIndexLinks(res, linkArr);
+                            if (linkArr.length) {
+                                let url, urlId, type, t;
+                                for (let key in linkArr) {
+                                    if (!linkArr.hasOwnProperty(key)) {
+                                        continue;
+                                    }
+                                    url = linkArr[key];
+                                    urlId = getUrlId(url);
+                                    type = getUrlType(url);
+                                    t = type ? type.substring(0, 1) : "";
+                                    if (type && urlId && list[type].indexOf(url) === -1) {
+                                        if (usedUrl.indexOf(urlId + "|" + t) === -1) {
+                                            if (usedUrl.indexOf(urlId) === -1) {
+                                                list[type].push(url);
+                                            } else {
+                                                addUsedUrl(url);
+                                            }
+                                        }
+                                    }
+                                }
+                                if (list["article"].length && list["video"].length) {
+                                    shuffle(list["article"]);
+                                    shuffle(list["video"]);
+                                    autoEarnPoints(list, 1000 + Math.floor(Math.random() * 1000));
+                                } else {
+                                    notice(chrome.i18n.getMessage("extLink"))
+                                }
+                            } else {
+                                notice(chrome.i18n.getMessage("extIndexApi"), chrome.i18n.getMessage("extUpdate"))
+                            }
+                        });
+                    }
+                }
+            };
+            xhr.send();
             break;
     }
 });
