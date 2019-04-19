@@ -46,9 +46,5 @@
   "extUpdate": {
     "message": "Please update 'Learning the Pooh' version",
     "description": ""
-  },
-  "extLink": {
-    "message": "No available link",
-    "description": ""
   }
 }

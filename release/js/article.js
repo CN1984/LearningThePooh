@@ -16,12 +16,17 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
         if (response.runtime) {
             setTimeout(function () {
+                document.querySelector(".content").click();
+            }, 1000 + Math.floor(Math.random() * 3000));
+
+            setTimeout(function () {
                 window.scrollTo({
                     left: window.scrollX,
                     top: 400 + Math.floor(Math.random() * 200),
                     behavior: 'smooth'
                 });
                 autoScroll();
+                chrome.runtime.sendMessage({"method": "useUrl"});
             }, 1000 + Math.floor(Math.random() * 3000))
         }
     }

@@ -1,6 +1,15 @@
 let qrCode = document.querySelector('.ddloginbox');
 if (qrCode) {
-    qrCode.scrollIntoView({
-        behavior: "smooth"
-    });
+    setTimeout(function () {
+        qrCode.scrollIntoView({
+            behavior: "smooth"
+        });
+        setTimeout(function () {
+            window.scrollTo({
+                left: (document.body.scrollWidth - document.documentElement.clientWidth) / 2,
+                top: window.scrollY,
+                behavior: 'smooth'
+            });
+        }, 1000 + Math.floor(Math.random() * 1000));
+    }, 1000 + Math.floor(Math.random() * 1000))
 }
