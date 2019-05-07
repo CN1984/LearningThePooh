@@ -1,5 +1,5 @@
 # Learning the Pooh
-Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`, to more time think about the meaning of life.
+Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`, make more time think about the meaning of life.
 
 ## Download
 * [latest release](https://github.com/CN1984/LearningThePooh/releases)
@@ -9,33 +9,33 @@ Help some adults (maybe children in future) to happily finish their daily homewo
   * [Firefox Add-ons](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
 * Chrome
   * [Chrome Web Store](https://chrome.google.com/webstore/detail/idnlblbfphcnipfoonolpfgglnaeodml)
-  * Or enter `chrome://extensions/` in the browser address bar, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder from the unpacked `Source code`
+  * Or enter `chrome://extensions/` in the browser address bar, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder from the unpacked `Source code`.
 * QQ Browser
-  * Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page
+  * Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
 * 360 Security Browser
-  * Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page
+  * Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
 * 360 Extreme Browser
-  * Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page
+  * Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
 
 ## Usage
 * Desktop Browser
-  * Click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program
-  * If don't have login, please choose one login method
-  * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window
+  * Click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
+  * If don't have login, please choose one login method.
+  * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
 * Mobile Browser (Firefox)
-  * Click the `Learning the Pooh` in browser's menu to start running program
-  * If don't have login, please choose one login method (if choose `QR Code`, need another phone)
-  * Waiting for the program to finish 'study' on the browser, keep the phone screen on and don't do anything else till the end
-  * Make sure your phone is connecting a WLAN, because watching video will consume a lot of network traffic
+  * Click the `Learning the Pooh` in browser's menu to start running program.
+  * If don't have login, please choose one login method (if choose `QR Code`, need another phone).
+  * Waiting for the program to finish 'study' on the browser, keep the phone screen on and don't do anything else till the end.
+  * Make sure your phone is connecting a WLAN, because watching video will consume a lot of network traffic.
 
 ## Flash Mode
-* Running multiple windows at the same time to achieve learning speed up
-* Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Flash mode` in the menu
-* This feature may be risky, please take care of yourself
+* Running multiple windows at the same time to achieve learning speed up.
+* Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Flash mode` in the menu.
+* This feature may be risky, please take care of yourself.
 
 ## Multiple Accounts
-* Create multiple users in chrome and run with different users
-* Or run in multiple different browsers
+* Create multiple users in chrome and run with different users.
+* Or run in multiple different browsers.
 
 ## License
 ![GPLv3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)
