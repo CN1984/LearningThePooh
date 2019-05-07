@@ -1,5 +1,5 @@
 # 学习小熊
-帮助一些成年人（或许未来包括孩子）快乐地完成来自`学习强国`的作业。
+帮助一些成年人（或许未来包括孩子）快乐地完成来自`学习强国`的作业，从而更多时间思考人生的意义。
 
 ## 下载
 * [最新发布](https://github.com/CN1984/LearningThePooh/releases)
@@ -9,29 +9,33 @@
   * [Firefox 附加组件](https://addons.mozilla.org/zh-CN/firefox/addon/%E5%AD%A6%E4%B9%A0%E5%B0%8F%E7%86%8A)
 * Chrome
   * [Chrome 网上应用店](https://chrome.google.com/webstore/detail/idnlblbfphcnipfoonolpfgglnaeodml)
-  * 或在地址栏输入 `chrome://extensions` 并回车，勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择从 `Source code` 解压的 `release` 文件夹。
+  * 或在地址栏输入 `chrome://extensions` 并回车，勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择从 `Source code` 解压的 `release` 文件夹
 * QQ 浏览器
-  * 在地址栏输入 `qqbrowser://extensions/manage` 并回车，拖动 `*.crx` 文件到页面内。
+  * 在地址栏输入 `qqbrowser://extensions/manage` 并回车，拖动 `*.crx` 文件到页面内
 * 360 安全浏览器
-  * 在地址栏输入 `se://extensions` 并回车，拖动 `*.crx` 文件到页面内。
+  * 在地址栏输入 `se://extensions` 并回车，拖动 `*.crx` 文件到页面内
 * 360 极速浏览器
-  * 在地址栏输入 `chrome://myextensions/extensions` 并回车，拖动 `*.crx` 文件到页面内。
+  * 在地址栏输入 `chrome://myextensions/extensions` 并回车，拖动 `*.crx` 文件到页面内
 
 ## 使用方法
 * 桌面浏览器
-  * 在浏览器右上方的工具栏中，点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) 按钮来启动程序。
-  * 如果你没有登录账号，通过官方APP扫描打开页面中的二维码进行登录。
-  * 等待打开的小窗口中的程序完成“学习”，期间你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口。
+  * 在浏览器右上方的工具栏中，点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) 按钮来启动程序
+  * 如果你没有登录，请选择一种方式进行登录
+  * 等待打开的小窗口中的程序完成“学习”，期间你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口
 * 移动浏览器 （Firefox）
-  * 在浏览器菜单栏中，点击 `学习小熊` 来启动程序。
-  * 如果你没有登录账号，使用另一台手机，通过官方APP扫描打开页面中的二维码进行登录。
-  * 等待打开的浏览器中的程序完成“学习”，期间保持屏幕常亮，并且结束前不要做其他事情。
-  * 请确认手机正在使用无线局域网，因为观看视频会消耗大量网络流量。
+  * 在浏览器菜单栏中，点击 `学习小熊` 来启动程序
+  * 如果你没有登录，请选择一种方式进行登录（如选择 `APP扫码`，需要另一台手机）
+  * 等待打开的浏览器中的程序完成“学习”，期间保持屏幕常亮，并且结束前不要做其他事情
+  * 请确认手机正在使用无线局域网，因为观看视频会消耗大量网络流量
 
 ## 闪电模式
-* 同时运行多个窗口实现学习速度加快。
-* 右键点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png)，在菜单中选择 `闪电模式`。
-* 本功能或存在风险，请照顾好自己。
+* 同时运行多个窗口实现学习速度加快
+* 右键点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png)，在菜单中选择 `闪电模式`
+* 本功能或存在风险，请照顾好自己
+
+## 多账号
+* 在Chrome中创建多个用户，使用不同的用户运行
+* 或在多个不同的浏览器中运行
 
 ## 许可证
 ![GPLv3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)

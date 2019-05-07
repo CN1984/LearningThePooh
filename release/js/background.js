@@ -1,7 +1,7 @@
 let scoreTabId = 0, runningTabId = 0, scoreWindowId = 0, runningWindowIds = [], modeMenu = [], flashMode = 0,
     lastFlash = {}, indexUrls = {}, usedUrls = [], userId = 0, timeoutId = 0;
-let windowWidth = 320 + Math.floor(Math.random() * 160);
-let windowHeight = 320 + Math.floor(Math.random() * 160);
+let windowWidth = 360 + Math.floor(Math.random() * 120);
+let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 let firefoxVersion = (/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 let isMobile = !!(/Mobile/.exec(navigator.userAgent));
@@ -9,7 +9,8 @@ let urlMap = {
     "index": "https://www.xuexi.cn",
     "points": "https://pc.xuexi.cn/points/my-points.html",
     "scoreApi": "https://pc-api.xuexi.cn/open/api/score/today/queryrate",
-    "indexApi": "https://www.xuexi.cn/lgdata/index.json"
+    "indexApi": "https://www.xuexi.cn/lgdata/index.json",
+    "account": "https://login.dingtalk.com/login/index.htm?goto=https%3A%2F%2Foapi.dingtalk.com%2Fconnect%2Foauth2%2Fsns_authorize%3Fappid%3Ddingoankubyrfkttorhpou%26response_type%3Dcode%26scope%3Dsnsapi_login%26redirect_uri%3Dhttps%3A%2F%2Fpc-api.xuexi.cn%2Fopen%2Fapi%2Fsns%2Fcallback"
 };
 
 //生成运行模式菜单
@@ -84,9 +85,11 @@ function checkPointsData(callback) {
                         closeWindow();
                     }
                     chrome.tabs.update(scoreTabId, {"active": true});
-                    chrome.tabs.sendMessage(scoreTabId, {
-                        "method": "redirect",
-                        "data": urlMap.points
+                    chooseLogin(function (url) {
+                        chrome.tabs.sendMessage(scoreTabId, {
+                            "method": "redirect",
+                            "data": url
+                        });
                     });
                 }
             }
@@ -557,6 +560,14 @@ function getIndexLinks(res, linkArr = []) {
     }
 }
 
+//选择登录方式
+function chooseLogin(callback) {
+    let accountLogin = window.confirm(chrome.i18n.getMessage("extLogin"));
+    if (typeof callback === "function") {
+        callback(accountLogin ? urlMap.account : urlMap.points);
+    }
+}
+
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
     if (chromeVersion < 45 && firefoxVersion < (isMobile ? 55 : 48)) {
@@ -579,9 +590,11 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                 indexUrls = {};
                 usedUrls = [];
                 userId = 0;
-                createWindow(urlMap.points, function (window) {
-                    scoreWindowId = window.id;
-                    scoreTabId = window.tabs[window.tabs.length - 1].id;
+                chooseLogin(function (url) {
+                    createWindow(url, function (window) {
+                        scoreWindowId = window.id;
+                        scoreTabId = window.tabs[window.tabs.length - 1].id;
+                    });
                 });
             }
         } else {
@@ -596,8 +609,10 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                 indexUrls = {};
                 usedUrls = [];
                 userId = 0;
-                chrome.tabs.create({"url": urlMap.points}, function (tab) {
-                    scoreTabId = tab.id;
+                chooseLogin(function (url) {
+                    chrome.tabs.create({"url": url}, function (tab) {
+                        scoreTabId = tab.id;
+                    });
                 });
             }
         }
@@ -607,10 +622,13 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 //标签页更新事件
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (tabId === scoreTabId) {
-        if (changeInfo.hasOwnProperty("url") && changeInfo.url.indexOf("login") !== -1) {
-            if (!isMobile) {
-                notice(chrome.i18n.getMessage("extLogin"));
-            }
+        if (changeInfo.hasOwnProperty("url") && changeInfo.url.indexOf("my-study") !== -1) {
+            setTimeout(function () {
+                chrome.tabs.sendMessage(scoreTabId, {
+                    "method": "redirect",
+                    "data": urlMap.points
+                });
+            }, 1000 + Math.floor(Math.random() * 3000));
         }
     }
 });

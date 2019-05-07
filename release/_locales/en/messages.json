@@ -12,7 +12,7 @@
     "description": ""
   },
   "extLogin": {
-    "message": "Please login account",
+    "message": "Choose login method:\n[OK] Account    [Cancel] QR Code",
     "description": ""
   },
   "extWorking": {

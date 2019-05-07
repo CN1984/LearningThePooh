@@ -12,7 +12,7 @@
     "description": ""
   },
   "extLogin": {
-    "message": "请登录账号",
+    "message": "选择登录方式:\n[确认] 账号密码    [取消] APP扫码",
     "description": ""
   },
   "extWorking": {
