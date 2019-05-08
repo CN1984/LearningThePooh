@@ -11,8 +11,12 @@
     "message": "请更新浏览器版本",
     "description": ""
   },
-  "extLogin": {
-    "message": "选择登录方式:\n[确认] 账号密码    [取消] APP扫码",
+  "extAppLogin": {
+    "message": "APP扫码登录",
+    "description": ""
+  },
+  "extAccountLogin": {
+    "message": "账号密码登录",
     "description": ""
   },
   "extWorking": {
@@ -32,7 +36,7 @@
     "description": ""
   },
   "extFlashMode": {
-    "message": "闪电模式 (实验性)",
+    "message": "闪电模式",
     "description": ""
   },
   "extScoreApi": {

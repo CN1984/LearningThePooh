@@ -1,5 +1,5 @@
 # Learning the Pooh
-Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`, make more time think about the meaning of life.
+Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`, get more time to think about the meaning of life.
 
 ## Download
 * [latest release](https://github.com/CN1984/LearningThePooh/releases)
@@ -20,18 +20,21 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 ## Usage
 * Desktop Browser
   * Click the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png) button on the toolbar at the top right of the browser to start running program.
-  * If don't have login, please choose one login method.
-  * Waiting for the program to finish 'study' in a small opening window, you can use this computer do something else but `minimize` or `close` that window.
+  * If don't have login, please login in the small opening window.
+  * Waiting for the program to finish 'study' in the small opening window, you can use this computer do something else but `minimize` or `close` that window.
 * Mobile Browser (Firefox)
   * Click the `Learning the Pooh` in browser's menu to start running program.
-  * If don't have login, please choose one login method (if choose `QR Code`, need another phone).
-  * Waiting for the program to finish 'study' on the browser, keep the phone screen on and don't do anything else till the end.
+  * If don't have login, please login on the opening page.
+  * Waiting for the program to finish 'study' on the opening page, keep the phone screen on and don't do anything else till the end.
   * Make sure your phone is connecting a WLAN, because watching video will consume a lot of network traffic.
 
 ## Flash Mode
 * Running multiple windows at the same time to achieve learning speed up.
 * Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Flash mode` in the menu.
 * This feature may be risky, please take care of yourself.
+
+## Login By Account
+* Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Login by account` in the menu.
 
 ## Multiple Accounts
 * Create multiple users in chrome and run with different users.

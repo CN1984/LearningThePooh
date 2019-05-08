@@ -11,8 +11,12 @@
     "message": "Please update browser version",
     "description": ""
   },
-  "extLogin": {
-    "message": "Choose login method:\n[OK] Account    [Cancel] QR Code",
+  "extAppLogin": {
+    "message": "Login by app",
+    "description": ""
+  },
+  "extAccountLogin": {
+    "message": "Login by account",
     "description": ""
   },
   "extWorking": {
@@ -32,7 +36,7 @@
     "description": ""
   },
   "extFlashMode": {
-    "message": "Flash mode (experimental)",
+    "message": "Flash mode",
     "description": ""
   },
   "extScoreApi": {
