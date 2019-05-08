@@ -1,5 +1,5 @@
 let scoreTabId = 0, runningTabId = 0, scoreWindowId = 0, runningWindowIds = [], modeMenu = [], flashMode = 0,
-    lastFlash = {}, indexUrls = {}, usedUrls = [], userId = 0, timeoutId = 0, accountLogin = 0;
+    lastFlash = {}, indexUrls = {}, usedUrls = [], userId = 0, timeoutId = 0, accountLogin = 0, redirectPoints = 0;
 let windowWidth = 360 + Math.floor(Math.random() * 120);
 let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
@@ -646,12 +646,16 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (tabId === scoreTabId) {
         if (changeInfo.hasOwnProperty("url") && changeInfo.url.indexOf("my-study") !== -1) {
+            redirectPoints = 1;
+        }
+        if (changeInfo.hasOwnProperty("status") && changeInfo.status === "complete" && redirectPoints) {
+            redirectPoints = 0;
             setTimeout(function () {
-                chrome.tabs.sendMessage(scoreTabId, {
+                chrome.tabs.sendMessage(tabId, {
                     "method": "redirect",
                     "data": urlMap.points
                 });
-            }, 1000 + Math.floor(Math.random() * 3000));
+            }, Math.floor(Math.random() * 3000));
         }
     }
 });
