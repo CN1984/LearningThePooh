@@ -28,11 +28,6 @@ Help some adults (maybe children in future) to happily finish their daily homewo
   * Waiting for the program to finish 'study' on the opening page, keep the phone screen on and don't do anything else till the end.
   * Make sure your phone is connecting a WLAN, because watching video will consume a lot of network traffic.
 
-## Flash Mode
-* Running multiple windows at the same time to achieve learning speed up.
-* Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Flash mode` in the menu.
-* This feature may be risky, please take care of yourself.
-
 ## Login By Account
 * Right click on the ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png), select `Login by account` in the menu.
 

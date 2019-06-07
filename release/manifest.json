@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "1.3.11",
+  "version": "1.4.1",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "icons": {
@@ -37,18 +37,12 @@
     },
     {
       "js": [
-        "js/article.js"
+        "js/runtime.js"
       ],
       "matches": [
-        "*://www.xuexi.cn/*/e43e220633a65f9b6d8b53712cba9caa.html*"
-      ]
-    },
-    {
-      "js": [
-        "js/video.js"
-      ],
-      "matches": [
-        "*://www.xuexi.cn/*/cf94877c29e1c685574e0226618fb1be.html*"
+        "*://www.xuexi.cn/*/e43e220633a65f9b6d8b53712cba9caa.html*",
+        "*://www.xuexi.cn/*/cf94877c29e1c685574e0226618fb1be.html*",
+        "*://www.xuexi.cn/lgpage/detail/index.html?id=*"
       ]
     },
     {

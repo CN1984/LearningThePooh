@@ -28,11 +28,6 @@
   * 等待打开的页面中的程序完成“学习”，期间保持屏幕常亮，并且结束前不要做其他事情。
   * 请确认手机正在使用无线局域网，因为观看视频会消耗大量网络流量。
 
-## 闪电模式
-* 同时运行多个窗口实现学习速度加快。
-* 右键点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png)，在菜单中选择 `闪电模式`。
-* 本功能或存在风险，请照顾好自己。
-
 ## 账号密码登录
 * 右键点击 ![icon](https://github.com/CN1984/LearningThePooh/raw/master/release/img/16.png)，在菜单中选择 `账号密码登录`。
 

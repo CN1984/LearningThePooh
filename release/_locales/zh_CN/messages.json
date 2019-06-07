@@ -43,12 +43,16 @@
     "message": "积分接口变更",
     "description": ""
   },
-  "extIndexApi": {
-    "message": "首页接口变更",
+  "extChannelApi": {
+    "message": "渠道接口变更",
     "description": ""
   },
   "extUpdate": {
-    "message": "请更新“学习小熊”版本",
+    "message": "请等待「学习小熊」新版本",
+    "description": ""
+  },
+  "extNew": {
+    "message": "「学习小熊」有新版本 ",
     "description": ""
   }
 }

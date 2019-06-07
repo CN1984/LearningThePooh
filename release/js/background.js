@@ -1,5 +1,5 @@
-let scoreTabId = 0, runningTabId = 0, scoreWindowId = 0, runningWindowIds = [], modeMenu = [], flashMode = 0,
-    lastFlash = {}, indexUrls = {}, usedUrls = [], userId = 0, timeoutId = 0, accountLogin = 0, redirectPoints = 0;
+let scoreTabId = 0, runningTabId = 0, scoreWindowId = 0, runningWindowId = 0, channelUrls = {}, userId = 0,
+    usedUrls = {}, accountLogin = 0, redirectPoints = 0;
 let windowWidth = 360 + Math.floor(Math.random() * 120);
 let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
@@ -9,42 +9,80 @@ let urlMap = {
     "index": "https://www.xuexi.cn",
     "points": "https://pc.xuexi.cn/points/my-points.html",
     "scoreApi": "https://pc-api.xuexi.cn/open/api/score/today/queryrate",
-    "indexApi": "https://www.xuexi.cn/lgdata/index.json",
+    "channelApi": "https://www.xuexi.cn/lgdata/",
     "account": "https://login.dingtalk.com/login/index.htm?goto=https%3A%2F%2Foapi.dingtalk.com%2Fconnect%2Foauth2%2Fsns_authorize%3Fappid%3Ddingoankubyrfkttorhpou%26response_type%3Dcode%26scope%3Dsnsapi_login%26redirect_uri%3Dhttps%3A%2F%2Fpc-api.xuexi.cn%2Fopen%2Fapi%2Fsns%2Fcallback"
 };
+let channel = {
+    'article': [
+        "152mdtl3qn1|https://www.xuexi.cn/71a472c6203e03e49df7768d4d01ba31/b78fdcf1d588904b1965faf807264e6f.html",
+        "vdppiu92n1|https://www.xuexi.cn/3960624581d7231cef96ba3ca43ec77c/d0fd85813f78b23f5e5399baa4304972.html",
+        "1jscb6pu1n2|https://www.xuexi.cn/98d5ae483720f701144e4dabf99a4a34/5957f69bffab66811b99940516ec8784.html",
+        "1ap1igfgdn2|https://www.xuexi.cn/d05cad69216e688d304bb91ef3aac4c6/9a3668c13f6e303932b5e0e100fc248b.html",
+        "1ajhkle8l72|https://www.xuexi.cn/7097477a9643eacffe4cc101e4906fdb/9a3668c13f6e303932b5e0e100fc248b.html",
+        "slu9169f72|https://www.xuexi.cn/105c2fa2843fa9e6d17440e172115c92/9a3668c13f6e303932b5e0e100fc248b.html",
+        "17aeesljm72|https://www.xuexi.cn/03c8b56d5bce4b3619a9d6c2dfb180ef/9a3668c13f6e303932b5e0e100fc248b.html",
+        "tuaihmuun2|https://www.xuexi.cn/bab787a637b47d3e51166f6a0daeafdb/9a3668c13f6e303932b5e0e100fc248b.html",
+        "u1ght1omn2|https://www.xuexi.cn/d184e7597cc0da16f5d9f182907f1200/9a3668c13f6e303932b5e0e100fc248b.html",
+        "1lo8n2gv8n2|https://www.xuexi.cn/531564a05f3981160bf5c4c2b70fe1ce/65d8bbc44cc6812cec5ef2df79cb91cf.html",
+        "1oo5atvs172|https://www.xuexi.cn/00f20f4ab7d63a1c259fff55be963558/9a3668c13f6e303932b5e0e100fc248b.html",
+        "1gohlpfidnc|https://www.xuexi.cn/4954c7f51c37ef08e9fdf58434a8c1e2/5afa2289c8a14feb189920231dadc643.html",
+        "1moa0khf17e|https://www.xuexi.cn/2a7f6facf9b194c40e35b484a5df9ec7/5957f69bffab66811b99940516ec8784.html",
+        "1eppcq11fne|https://www.xuexi.cn/0db3aecacaed782aaab2da53498360ad/5957f69bffab66811b99940516ec8784.html",
+        "152ijthp37e|https://www.xuexi.cn/f64099d849c46d8b64b25e3313e1b172/5957f69bffab66811b99940516ec8784.html",
+        "1cieuomejnn|https://www.xuexi.cn/0053f57ca16ece330b5ec5b567effa10/5957f69bffab66811b99940516ec8784.html",
+        "1lje05c9une|https://www.xuexi.cn/6ed7728b41f51a160e1560e988d70276/5957f69bffab66811b99940516ec8784.html",
+        "1drofao4h7e|https://www.xuexi.cn/07ad59ece3409638975ecf44a67dba0e/5957f69bffab66811b99940516ec8784.html",
+        "1h4s6pojfne|https://www.xuexi.cn/d6103cc0645b28280c5d00f184a4d160/5957f69bffab66811b99940516ec8784.html",
+        "1aa6otcmsne|https://www.xuexi.cn/5984cbfad3406999bae6844604122bf4/3130ba968c09230dc802101c66761e93.html",
+        "1h94aj7cc7e|https://www.xuexi.cn/607eb6a12164c2323e19ba2d1a0b2b7c/867ef8949a23097bcde57732799cb4b6.html",
+        "1ooaa665snf|https://www.xuexi.cn/00fb9c21e0a728930d42eddba912b3f6/5957f69bffab66811b99940516ec8784.html",
+        "1j62uk931nf|https://www.xuexi.cn/52e44abae4bdb29ec9c20e2ebc8ff4c4/5957f69bffab66811b99940516ec8784.html",
+        "1hoa55co0nf|https://www.xuexi.cn/fc9e217ca5c82e1c3abeb7ffc653295b/101e83575e300916a040edc4afe62c3d.html",
+    ],
+    'video': [
+        "1novbsbi47k|https://www.xuexi.cn/a191dbc3067d516c3e2e17e2e08953d6/b87d700beee2c44826a9202c75d18c85.html",
+        "1742g60067k|https://www.xuexi.cn/0b99b2eb0a13e4501cbaf82a5c37a853/b87d700beee2c44826a9202c75d18c85.html",
+        "1novbsbi47k|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1novbsbi47k-5",
+        "1koo357ronk|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1koo357ronk-5",
+        "1742g60067k|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1742g60067k-5",
+        "17th9fq5c7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#17th9fq5c7l-5",
+        "vc9n1ga0nl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#vc9n1ga0nl-5",
+        "1f8iooppm7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1f8iooppm7l-5",
+        "18rkaul9h7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#18rkaul9h7l-5",
+        "1am3asi2enl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1am3asi2enl-5",
+    ]
+};
+
+//检测是否有新版本
+chrome.management.getSelf(function (extensionInfo) {
+    let localVersion, remoteVersion;
+    if (extensionInfo.hasOwnProperty("version")) {
+        localVersion = extensionInfo.version;
+        chrome.storage.local.get("version_check", function (items) {
+            if (!items.hasOwnProperty("version_check") || Date.parse(new Date()) - items["version_check"] > 86400000) {
+                chrome.storage.local.set({"version_check": Date.parse(new Date())});
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", "https://raw.githubusercontent.com/CN1984/LearningThePooh/master/release/manifest.json");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            let res = JSON.parse(xhr.responseText);
+                            if (res.hasOwnProperty("version")) {
+                                remoteVersion = res.version;
+                                if (compareVersion(localVersion, remoteVersion)) {
+                                    notice(chrome.i18n.getMessage("extNew") + "v" + remoteVersion);
+                                }
+                            }
+                        }
+                    }
+                };
+                xhr.send();
+            }
+        });
+    }
+});
 
 if (!isMobile) {
-    //生成运行模式菜单
-    chrome.storage.local.get("flash_mode", function (items) {
-        if (items.hasOwnProperty("flash_mode")) {
-            flashMode = items["flash_mode"];
-        }
-        flashMode ? chrome.browserAction.setIcon({"path": "img/16w.png"}) : chrome.browserAction.setIcon({"path": "img/16.png"});
-        modeMenu = [
-            chrome.contextMenus.create({
-                "contexts": ["browser_action"],
-                "type": "radio",
-                "title": chrome.i18n.getMessage("extSafeMode"),
-                "checked": !flashMode,
-                "onclick": function (info, tab) {
-                    flashMode = 0;
-                    chrome.browserAction.setIcon({"path": "img/16.png"});
-                    chrome.storage.local.set({"flash_mode": flashMode});
-                }
-            }),
-            chrome.contextMenus.create({
-                "contexts": ["browser_action"],
-                "type": "radio",
-                "title": chrome.i18n.getMessage("extFlashMode"),
-                "checked": !!flashMode,
-                "onclick": function (info, tab) {
-                    flashMode = 1;
-                    chrome.browserAction.setIcon({"path": "img/16w.png"});
-                    chrome.storage.local.set({"flash_mode": flashMode});
-                }
-            })
-        ];
-    });
     //生成登录方式菜单
     chrome.storage.local.get("account_login", function (items) {
         if (items.hasOwnProperty("account_login")) {
@@ -79,8 +117,28 @@ if (!isMobile) {
     });
 }
 
+//比对版本
+function compareVersion(localVersion, remoteVersion) {
+    let localArr = localVersion.split(".");
+    let remoteArr = remoteVersion.split(".");
+    if (localArr.hasOwnProperty(2) && remoteArr.hasOwnProperty(2)) {
+        if (remoteArr[0] > localArr[0]) {
+            return true;
+        } else if (remoteArr[0] === localArr[0]) {
+            if (remoteArr[1] > localArr[1]) {
+                return true;
+            } else if (remoteArr[1] === localArr[1]) {
+                if (remoteArr[2] > localArr[2]) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 //检查用户积分数据
-function checkPointsData(callback) {
+function getPointsData(callback) {
     if (scoreTabId) {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", urlMap.scoreApi);
@@ -107,13 +165,13 @@ function checkPointsData(callback) {
                             callback(res.data);
                         }
                     } else {
-                        notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"))
+                        notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"));
                     }
                 } else {
                     if (runningTabId) {
                         chrome.tabs.remove(runningTabId);
                     }
-                    if (runningWindowIds.length) {
+                    if (runningWindowId) {
                         closeWindow();
                     }
                     chrome.tabs.update(scoreTabId, {"active": true});
@@ -131,7 +189,7 @@ function checkPointsData(callback) {
 //检查积分接口数据结构
 function checkScoreAPI(res) {
     if (res.hasOwnProperty("data")) {
-        if (res.data.hasOwnProperty("dayScoreDtos") && res.data.hasOwnProperty("userId")) {
+        if (res.data.hasOwnProperty("dayScoreDtos")) {
             let pass = 0;
             let ruleList = [1, 2, 9, 1002, 1003];
             for (let key in res.data.dayScoreDtos) {
@@ -153,61 +211,70 @@ function checkScoreAPI(res) {
 }
 
 //检查首页内容数据
-function checkIndexData(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", urlMap.indexApi + "?_st=" + Math.floor(Date.now() / 6e4));
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                let res = JSON.parse(xhr.responseText);
-                let list = {
-                    "article": [],
-                    "video": []
-                };
-                let pass = {
-                    "article": [],
-                    "video": []
-                };
-                getUsedUrl(function (usedUrl) {
-                    let linkArr = [];
-                    getIndexLinks(res, linkArr);
-                    if (linkArr.length) {
-                        let link, urlId, type;
-                        for (let key in linkArr) {
-                            if (!linkArr.hasOwnProperty(key)) {
-                                continue;
-                            }
-                            link = linkArr[key];
-                            urlId = getUrlId(link);
-                            type = getUrlType(link);
-                            if (type && urlId && list[type].indexOf(link) === -1) {
-                                if (usedUrl.indexOf(urlId + "|" + type.substring(0, 1)) === -1) {
-                                    list[type].push(link);
+function getChannelData(type, callback) {
+
+    shuffle(channel[type]);
+    channelArr = channel[type][0].split('|');
+
+    if (!isMobile) {
+        chrome.windows.get(runningWindowId, {"populate": true}, function (window) {
+            if (typeof window !== "undefined") {
+                chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
+                    "method": "redirect",
+                    "data": channelArr[1]
+                });
+            }
+        });
+    } else {
+        chrome.tabs.sendMessage(runningTabId, {
+            "method": "redirect",
+            "data": channelArr[1]
+        });
+    }
+
+    setTimeout(function () {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", urlMap.channelApi + channelArr[0] + ".json?_st=" + Math.floor(Date.now() / 6e4));
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    let res = JSON.parse(xhr.responseText);
+                    let list = [];
+                    let pass = [];
+                    let url;
+
+                    for (key in res) {
+                        if (!res.hasOwnProperty(key)) {
+                            continue;
+                        }
+                        if (res[key].hasOwnProperty("url")) {
+                            url = res[key].url;
+                            if (list.indexOf(url) === -1 && pass.indexOf(url) === -1) {
+                                if (usedUrls[type].indexOf(url) === -1) {
+                                    list.push(url);
                                 } else {
-                                    pass[type].push(link);
+                                    pass.push(url);
                                 }
                             }
                         }
-                        shuffle(list["article"]);
-                        shuffle(list["video"]);
-                        shuffle(pass["article"]);
-                        shuffle(pass["video"]);
+                    }
+                    shuffle(list);
+                    shuffle(pass);
+                    list.concat(pass);
 
-                        list["article"].concat(pass["article"]);
-                        list["video"].concat(pass["video"]);
-
+                    if (list.length) {
                         if (typeof callback === "function") {
                             callback(list);
                         }
                     } else {
-                        notice(chrome.i18n.getMessage("extIndexApi"), chrome.i18n.getMessage("extUpdate"))
+                        notice(chrome.i18n.getMessage("extChannelApi"), chrome.i18n.getMessage("extUpdate"));
                     }
-                });
+                }
             }
-        }
-    };
-    xhr.send();
+        };
+        xhr.send();
+    }, 1000 + Math.floor(Math.random() * 3000));
 }
 
 //自动积分
@@ -215,292 +282,104 @@ function autoEarnPoints(timeout) {
     let url;
     let newTime = 0;
     setTimeout(function () {
-        checkPointsData(function (data) {
+        getPointsData(function (data) {
             let score = data.dayScoreDtos;
-            if (flashMode) {
-                let urlArticle;
-                let urlVideo;
-                let keepWindows;
-                let maxArticleWindow = 3;
-                let maxVideoWindow = 3;
+            let type;
+            let mode;
 
-                if (!Object.keys(lastFlash).length) {
-                    lastFlash = {
-                        "article": {
-                            "currentScore": 0,
-                            "windowIds": [],
-                            "windowUrls": []
-                        },
-                        "video": {
-                            "currentScore": 0,
-                            "windowIds": [],
-                            "windowUrls": []
+            for (let key in score) {
+                if (!score.hasOwnProperty(key)) {
+                    continue;
+                }
+                switch (score[key].ruleId) {
+                    case 1:
+                        if (score[key].currentScore < score[key].dayMaxScore) {
+                            type = "article";
+                            mode = "quantity";
+                            newTime = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
                         }
-                    };
+                        break;
+                    case 2:
+                        if (score[key].currentScore < score[key].dayMaxScore) {
+                            type = "video";
+                            mode = "quantity";
+                            newTime = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
+                        }
+                        break;
+                    case 1002:
+                        if (score[key].currentScore < score[key].dayMaxScore) {
+                            type = "article";
+                            mode = "duration";
+                            newTime = 125 * 1000 + Math.floor(Math.random() * 55 * 1000);
+                        }
+                        break;
+                    case 1003:
+                        if (score[key].currentScore < score[key].dayMaxScore) {
+                            type = "video";
+                            mode = "duration";
+                            newTime = 185 * 1000 + Math.floor(Math.random() * 55 * 1000);
+                        }
+                        break;
+                }
+                if (type) {
+                    break;
+                }
+            }
+
+            if (type) {
+                if (mode === "duration") {
+                    url = getLastTypeUrl(type, 0);
                 }
 
-                for (let key in score) {
-                    if (!score.hasOwnProperty(key)) {
-                        continue;
-                    }
-                    switch (score[key].ruleId) {
-                        case 1:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                if (indexUrls.article.length) {
-                                    urlArticle = indexUrls.article.shift();
-                                }
-                                if (lastFlash.article.windowIds.length && (lastFlash.article.currentScore === score[key].currentScore || lastFlash.article.windowIds.length >= maxArticleWindow)) {
-                                    let lastArticleWindowId = lastFlash.article.windowIds.pop();
-                                    setTimeout(function () {
-                                        closeWindow(lastArticleWindowId);
-                                    }, 3000);
-                                }
-                            }
-                            lastFlash.article.currentScore = score[key].currentScore;
-                            break;
-                        case 2:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                if (indexUrls.video.length) {
-                                    urlVideo = indexUrls.video.shift();
-                                }
-                                if (lastFlash.video.windowIds.length && (lastFlash.video.currentScore === score[key].currentScore || lastFlash.video.windowIds.length >= maxVideoWindow)) {
-                                    let lastVideoWindowId = lastFlash.video.windowIds.pop();
-                                    setTimeout(function () {
-                                        closeWindow(lastVideoWindowId);
-                                    }, 3000);
-                                }
-                            }
-                            lastFlash.video.currentScore = score[key].currentScore;
-                            break;
-                        case 1002:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                keepWindows = 1;
-                                if (!urlArticle && lastFlash.article.windowIds.length < maxArticleWindow) {
-                                    urlArticle = getLastTypeUrl("article", lastFlash.article.windowUrls.length);
-                                    if (!urlArticle && indexUrls.article.length) {
-                                        urlArticle = indexUrls.article.shift();
-                                    }
-                                }
-                            }
-                            break;
-                        case 1003:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                keepWindows = 1;
-                                if (!urlVideo && lastFlash.video.windowIds.length < maxVideoWindow) {
-                                    urlVideo = getLastTypeUrl("video", lastFlash.video.windowUrls.length);
-                                    if (!urlVideo && indexUrls.video.length) {
-                                        urlVideo = indexUrls.video.shift();
-                                    }
-                                }
-                            }
-                            break;
-                    }
+                if (!url && channelUrls[type].length) {
+                    url = channelUrls[type].shift();
                 }
+            }
 
-                if (urlArticle || urlVideo || keepWindows) {
-                    if (urlArticle) {
-                        setTimeout(function () {
-                            if (scoreTabId) {
-                                lastFlash.article.windowUrls.push(urlArticle);
-                                createWindow(urlArticle, function (window) {
-                                    runningWindowIds.push(window.id);
-                                    lastFlash.article.windowIds.push(window.id);
-                                });
-                            }
-                        }, Math.floor(Math.random() * 1000))
-                    }
-
-                    if (urlVideo) {
-                        setTimeout(function () {
-                            if (scoreTabId) {
-                                lastFlash.video.windowUrls.push(urlVideo);
-                                createWindow(urlVideo, function (window) {
-                                    runningWindowIds.push(window.id);
-                                    lastFlash.video.windowIds.push(window.id);
-                                });
-                            }
-                        }, 1000 + Math.floor(Math.random() * 1000))
-                    }
-
-                    newTime = 40 * 1000 + Math.floor(Math.random() * 20 * 1000);
-                    autoEarnPoints(newTime);
+            if (!isMobile) {
+                if (url && scoreTabId && runningWindowId) {
+                    chrome.windows.get(runningWindowId, {"populate": true}, function (window) {
+                        if (typeof window !== "undefined") {
+                            chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
+                                "method": "redirect",
+                                "data": url
+                            });
+                            autoEarnPoints(newTime);
+                        }
+                    });
                 } else {
                     closeWindow();
                 }
             } else {
-                let type;
-                let mode;
-
-                for (let key in score) {
-                    if (!score.hasOwnProperty(key)) {
-                        continue;
-                    }
-                    switch (score[key].ruleId) {
-                        case 1:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                type = "article";
-                                mode = "quantity";
-                                newTime = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
-                            }
-                            break;
-                        case 2:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                type = "video";
-                                mode = "quantity";
-                                newTime = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
-                            }
-                            break;
-                        case 1002:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                type = "article";
-                                mode = "duration";
-                                newTime = 125 * 1000 + Math.floor(Math.random() * 55 * 1000);
-                            }
-                            break;
-                        case 1003:
-                            if (score[key].currentScore < score[key].dayMaxScore) {
-                                type = "video";
-                                mode = "duration";
-                                newTime = 185 * 1000 + Math.floor(Math.random() * 55 * 1000);
-                            }
-                            break;
-                    }
-                    if (type) {
-                        break;
-                    }
-                }
-
-                if (type) {
-                    if (mode === "duration") {
-                        url = getLastTypeUrl(type, 0);
-                    }
-
-                    if (!url && indexUrls[type].length) {
-                        url = indexUrls[type].shift();
-                    }
-                }
-
-                if (!isMobile) {
-                    if (url && scoreTabId && runningWindowIds.length) {
-                        chrome.windows.get(runningWindowIds[0], {"populate": true}, function (window) {
-                            if (typeof window !== "undefined") {
-                                chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
-                                    "method": "redirect",
-                                    "data": url
-                                });
-                                autoEarnPoints(newTime);
-                            }
-                        });
-                    } else {
-                        closeWindow();
-                    }
+                if (url && scoreTabId && runningTabId) {
+                    chrome.tabs.sendMessage(runningTabId, {
+                        "method": "redirect",
+                        "data": url
+                    });
+                    autoEarnPoints(newTime);
                 } else {
-                    if (url && scoreTabId && runningTabId) {
-                        chrome.tabs.sendMessage(runningTabId, {
-                            "method": "redirect",
-                            "data": url
-                        });
-                        autoEarnPoints(newTime);
-                    } else {
-                        chrome.tabs.remove(runningTabId);
-                        chrome.tabs.remove(scoreTabId);
-                    }
+                    chrome.tabs.remove(runningTabId);
+                    chrome.tabs.remove(scoreTabId);
                 }
             }
         });
     }, timeout);
 }
 
-//获取已使用网址
-function getUsedUrl(callback) {
-    chrome.storage.local.get(function (items) {
-        let data = [];
-        if (items.hasOwnProperty("used_url_" + userId)) {
-            data = items["used_url_" + userId];
-        }
-        if (typeof callback === "function") {
-            callback(data);
-        }
-    });
-}
-
-//保存已使用网址
-function addUsedUrl(url) {
-    usedUrls.push(url);
-
-    if (timeoutId) {
-        clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(function () {
-        timeoutId = 0;
-        if (usedUrls.length) {
-            getUsedUrl(function (data) {
-                let url, id, type, t;
-                while ((url = usedUrls.shift()) !== undefined) {
-                    id = getUrlId(url);
-                    type = getUrlType(url);
-                    if (id && type) {
-                        t = type.substring(0, 1);
-                        if (data.indexOf(id + "|" + t) === -1) {
-                            data.push(id + "|" + t);
-                        }
-                    }
-                }
-                if (data.length > 1000) {
-                    data = data.slice(-1000);
-                }
-                chrome.storage.local.set({["used_url_" + userId]: data});
-            });
-        }
-    }, 1000);
-}
-
-//返回网址中的类型
-function getUrlType(url) {
-    let type;
-    if (url.indexOf("e43e220633a65f9b6d8b53712cba9caa") !== -1) {
-        type = "article";
-    } else if (url.indexOf("cf94877c29e1c685574e0226618fb1be") !== -1) {
-        type = "video";
-    }
-    return type;
-}
-
-//返回网址中的ID
-function getUrlId(url) {
-    let id;
-    let urlArr = url.split("/");
-    if (urlArr.length > 3 && urlArr[3].length === 32) {
-        id = urlArr[3];
-    }
-    return id;
-}
-
 //获取最后使用的网址
 function getLastTypeUrl(type, index) {
     let urls = [];
-    getUsedUrl(function (usedUrl) {
-        let length = usedUrl.length ? usedUrl.length - 1 : 0;
-        let urlArr = [];
-        let urlId = "";
-        let tHash = "";
-        for (let i = length; i >= 0; --i) {
-            if (!usedUrl.hasOwnProperty(i)) {
-                continue;
-            }
-            urlArr = usedUrl[i].split("|");
-            if (urlArr.hasOwnProperty(1) && urlArr[1] === type.substring(0, 1)) {
-                urlId = urlArr[0];
-                tHash = urlArr[1] === "a" ? "e43e220633a65f9b6d8b53712cba9caa" : "cf94877c29e1c685574e0226618fb1be";
-                urls.push(urlMap.index + "/" + urlId + "/" + tHash + ".html");
-            }
-
-            if (urls.length >= index + 1) {
-                break;
-            }
+    let length = usedUrls[type].length ? usedUrls[type].length - 1 : 0;
+    for (let i = length; i >= 0; --i) {
+        if (!usedUrls[type].hasOwnProperty(i)) {
+            continue;
         }
-    });
+        urls.push(usedUrls[type][i]);
+
+        if (urls.length >= index + 1) {
+            break;
+        }
+    }
     return urls.hasOwnProperty(index) ? urls[index] : undefined;
 }
 
@@ -562,31 +441,13 @@ function closeWindow(windowId) {
             }
         });
     } else {
-        if (runningWindowIds.length) {
-            while ((windowId = runningWindowIds.shift()) !== undefined) {
-                chrome.windows.remove(windowId);
-            }
+        if (runningWindowId) {
+            chrome.windows.remove(runningWindowId);
         }
         if (scoreWindowId) {
             chrome.windows.remove(scoreWindowId);
         }
         notice(chrome.i18n.getMessage("extFinish"));
-    }
-}
-
-//递归获取链接数组
-function getIndexLinks(res, linkArr = []) {
-    for (let key in res) {
-        if (!res.hasOwnProperty(key)) {
-            continue;
-        }
-        if (typeof res[key] === "string") {
-            if (key === "link") {
-                linkArr.push(res[key]);
-            }
-        } else if (typeof res[key] === "object" && res[key] !== null) {
-            getIndexLinks(res[key], linkArr);
-        }
     }
 }
 
@@ -602,21 +463,13 @@ chrome.browserAction.onClicked.addListener(function (tab) {
     } else {
         if (!isMobile) {
             if (scoreTabId) {
-                if (runningWindowIds.length) {
-                    for (let key in runningWindowIds) {
-                        if (!runningWindowIds.hasOwnProperty(key)) {
-                            continue;
-                        }
-                        chrome.windows.update(runningWindowIds[key], {"focused": true, "state": "normal"});
-                    }
+                if (runningWindowId) {
+                    chrome.windows.update(runningWindowId, {"focused": true, "state": "normal"});
                 } else {
                     chrome.windows.update(scoreWindowId, {"focused": true, "state": "normal"});
                 }
             } else {
-                lastFlash = {};
-                indexUrls = {};
-                usedUrls = [];
-                userId = 0;
+                channelUrls = {};
                 createWindow(getLoginUrl(), function (window) {
                     scoreWindowId = window.id;
                     scoreTabId = window.tabs[window.tabs.length - 1].id;
@@ -630,10 +483,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                     chrome.tabs.update(scoreTabId, {"active": true});
                 }
             } else {
-                lastFlash = {};
-                indexUrls = {};
-                usedUrls = [];
-                userId = 0;
+                channelUrls = {};
                 chrome.tabs.create({"url": getLoginUrl()}, function (tab) {
                     scoreTabId = tab.id;
                 });
@@ -655,7 +505,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                     "method": "redirect",
                     "data": urlMap.points
                 });
-            }, Math.floor(Math.random() * 3000));
+            }, 1000 + Math.floor(Math.random() * 3000));
         }
     }
 });
@@ -672,14 +522,11 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 //窗口移除事件
 if (!isMobile) {
     chrome.windows.onRemoved.addListener(function (windowId) {
-        let windowsIndex = runningWindowIds.indexOf(windowId);
-        if (windowsIndex !== -1) {
-            runningWindowIds.splice(windowsIndex, 1);
+        if (windowId === runningWindowId) {
+            runningWindowId = 0;
         } else if (windowId === scoreWindowId) {
             scoreWindowId = 0;
             chrome.browserAction.setBadgeText({"text": ""});
-            chrome.contextMenus.update(modeMenu[0], {"enabled": true});
-            chrome.contextMenus.update(modeMenu[1], {"enabled": true});
         }
     });
 }
@@ -688,40 +535,60 @@ if (!isMobile) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     switch (request.method) {
         case "checkTab":
-            if (runningWindowIds.indexOf(sender.tab.windowId) !== -1 || sender.tab.id === runningTabId || sender.tab.id === scoreTabId) {
+            if (sender.tab.windowId === runningWindowId || sender.tab.id === runningTabId || sender.tab.id === scoreTabId) {
                 sendResponse({
-                    "runtime": (flashMode ? 2 : 1)
+                    "runtime": 1
                 });
             }
             break;
         case "startRun":
-            if (!Object.keys(indexUrls).length) {
+            if (!Object.keys(channelUrls).length) {
                 if (!isMobile) {
-                    if (!runningWindowIds.length) {
-                        checkPointsData(function (data) {
+                    if (!runningWindowId) {
+                        getPointsData(function (data) {
+                            if (userId !== data.userId) {
+                                usedUrls = {
+                                    "article": [],
+                                    "video": []
+                                }
+                            }
                             userId = data.userId;
                             createWindow(urlMap.index, function (window) {
-                                runningWindowIds.push(window.id);
-                                checkIndexData(function (list) {
-                                    indexUrls = list;
-                                    chrome.contextMenus.update(modeMenu[0], {"enabled": false});
-                                    chrome.contextMenus.update(modeMenu[1], {"enabled": false});
-                                    notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
-                                    autoEarnPoints(1000 + Math.floor(Math.random() * 1000));
-                                });
+                                runningWindowId = window.id;
+                                notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
+                                setTimeout(function () {
+                                    getChannelData("article", function (list) {
+                                        channelUrls["article"] = list;
+                                        getChannelData("video", function (list) {
+                                            channelUrls["video"] = list;
+                                            autoEarnPoints(1000 + Math.floor(Math.random() * 1000));
+                                        });
+                                    });
+                                }, 1000 + Math.floor(Math.random() * 3000));
                             });
                         });
                     }
                 } else {
                     if (!runningTabId) {
-                        checkPointsData(function (data) {
+                        getPointsData(function (data) {
+                            if (userId !== data.userId) {
+                                usedUrls = {
+                                    "article": [],
+                                    "video": []
+                                }
+                            }
                             userId = data.userId;
                             chrome.tabs.create({"url": urlMap.index}, function (tab) {
                                 runningTabId = tab.id;
-                                checkIndexData(function (list) {
-                                    indexUrls = list;
-                                    autoEarnPoints(1000 + Math.floor(Math.random() * 1000));
-                                });
+                                setTimeout(function () {
+                                    getChannelData("article", function (list) {
+                                        channelUrls["article"] = list;
+                                        getChannelData("video", function (list) {
+                                            channelUrls["video"] = list;
+                                            autoEarnPoints(1000 + Math.floor(Math.random() * 1000));
+                                        });
+                                    });
+                                }, 1000 + Math.floor(Math.random() * 3000));
                             });
                         });
                     }
@@ -729,7 +596,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             }
             break;
         case "useUrl":
-            addUsedUrl(sender.tab.url);
+            if (usedUrls[request.type].indexOf(sender.tab.url) === -1) {
+                usedUrls[request.type].push(sender.tab.url);
+            }
             break;
     }
 });

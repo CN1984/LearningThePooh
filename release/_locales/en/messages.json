@@ -43,12 +43,16 @@
     "message": "Score api changed",
     "description": ""
   },
-  "extIndexApi": {
-    "message": "Index api changed",
+  "extChannelApi": {
+    "message": "Channel api changed",
     "description": ""
   },
   "extUpdate": {
-    "message": "Please update 'Learning the Pooh' version",
+    "message": "Please wait for the new version of [LearningThePooh]",
+    "description": ""
+  },
+  "extNew": {
+    "message": "[LearningThePooh] has a new version: ",
     "description": ""
   }
 }
