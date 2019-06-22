@@ -5,7 +5,7 @@ function autoScroll(type) {
             if (window.scrollY < scrollYMax - 600) {
                 window.scrollBy({
                     left: 0,
-                    top: 200 + Math.floor(Math.random() * 200),
+                    top: Math.floor(Math.random() * 3) > 0 ? (100 + Math.floor(Math.random() * 200)) : (Math.floor(Math.random() * -200)),
                     behavior: 'smooth'
                 });
                 autoScroll(type);

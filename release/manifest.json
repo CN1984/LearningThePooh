@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "icons": {
@@ -42,6 +42,7 @@
       "matches": [
         "*://www.xuexi.cn/*/e43e220633a65f9b6d8b53712cba9caa.html*",
         "*://www.xuexi.cn/*/cf94877c29e1c685574e0226618fb1be.html*",
+        "*://www.xuexi.cn/*/7f9f27c65e84e71e1b7189b7132b4710.html*",
         "*://www.xuexi.cn/lgpage/detail/index.html?id=*"
       ]
     },

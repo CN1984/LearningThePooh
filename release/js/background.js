@@ -26,13 +26,11 @@ let channel = {
         "1lo8n2gv8n2|https://www.xuexi.cn/531564a05f3981160bf5c4c2b70fe1ce/65d8bbc44cc6812cec5ef2df79cb91cf.html",
         "1oo5atvs172|https://www.xuexi.cn/00f20f4ab7d63a1c259fff55be963558/9a3668c13f6e303932b5e0e100fc248b.html",
         "1gohlpfidnc|https://www.xuexi.cn/4954c7f51c37ef08e9fdf58434a8c1e2/5afa2289c8a14feb189920231dadc643.html",
-        "1moa0khf17e|https://www.xuexi.cn/2a7f6facf9b194c40e35b484a5df9ec7/5957f69bffab66811b99940516ec8784.html",
         "1eppcq11fne|https://www.xuexi.cn/0db3aecacaed782aaab2da53498360ad/5957f69bffab66811b99940516ec8784.html",
         "152ijthp37e|https://www.xuexi.cn/f64099d849c46d8b64b25e3313e1b172/5957f69bffab66811b99940516ec8784.html",
         "1cieuomejnn|https://www.xuexi.cn/0053f57ca16ece330b5ec5b567effa10/5957f69bffab66811b99940516ec8784.html",
         "1lje05c9une|https://www.xuexi.cn/6ed7728b41f51a160e1560e988d70276/5957f69bffab66811b99940516ec8784.html",
         "1drofao4h7e|https://www.xuexi.cn/07ad59ece3409638975ecf44a67dba0e/5957f69bffab66811b99940516ec8784.html",
-        "1h4s6pojfne|https://www.xuexi.cn/d6103cc0645b28280c5d00f184a4d160/5957f69bffab66811b99940516ec8784.html",
         "1aa6otcmsne|https://www.xuexi.cn/5984cbfad3406999bae6844604122bf4/3130ba968c09230dc802101c66761e93.html",
         "1h94aj7cc7e|https://www.xuexi.cn/607eb6a12164c2323e19ba2d1a0b2b7c/867ef8949a23097bcde57732799cb4b6.html",
         "1ooaa665snf|https://www.xuexi.cn/00fb9c21e0a728930d42eddba912b3f6/5957f69bffab66811b99940516ec8784.html",
@@ -285,7 +283,6 @@ function autoEarnPoints(timeout) {
         getPointsData(function (data) {
             let score = data.dayScoreDtos;
             let type;
-            let mode;
 
             for (let key in score) {
                 if (!score.hasOwnProperty(key)) {
@@ -293,31 +290,17 @@ function autoEarnPoints(timeout) {
                 }
                 switch (score[key].ruleId) {
                     case 1:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "article";
-                            mode = "quantity";
-                            newTime = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
-                        }
-                        break;
-                    case 2:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "video";
-                            mode = "quantity";
-                            newTime = 35 * 1000 + Math.floor(Math.random() * 85 * 1000);
-                        }
-                        break;
                     case 1002:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "article";
-                            mode = "duration";
-                            newTime = 125 * 1000 + Math.floor(Math.random() * 55 * 1000);
+                            newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
                         }
                         break;
+                    case 2:
                     case 1003:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "video";
-                            mode = "duration";
-                            newTime = 185 * 1000 + Math.floor(Math.random() * 55 * 1000);
+                            newTime = 125 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         }
                         break;
                 }
@@ -326,14 +309,8 @@ function autoEarnPoints(timeout) {
                 }
             }
 
-            if (type) {
-                if (mode === "duration") {
-                    url = getLastTypeUrl(type, 0);
-                }
-
-                if (!url && channelUrls[type].length) {
-                    url = channelUrls[type].shift();
-                }
+            if (type && channelUrls[type].length) {
+                url = channelUrls[type].shift();
             }
 
             if (!isMobile) {
