@@ -11,14 +11,6 @@
     "message": "Please update browser version",
     "description": ""
   },
-  "extAppLogin": {
-    "message": "Login by app",
-    "description": ""
-  },
-  "extAccountLogin": {
-    "message": "Login by account",
-    "description": ""
-  },
   "extWorking": {
     "message": "Study hard",
     "description": ""
@@ -28,15 +20,7 @@
     "description": ""
   },
   "extFinish": {
-    "message": "Complete, see you",
-    "description": ""
-  },
-  "extSafeMode": {
-    "message": "Safe mode",
-    "description": ""
-  },
-  "extFlashMode": {
-    "message": "Flash mode",
+    "message": "Complete! See you",
     "description": ""
   },
   "extScoreApi": {
@@ -48,11 +32,7 @@
     "description": ""
   },
   "extUpdate": {
-    "message": "Please wait for the new version of [LearningThePooh]",
-    "description": ""
-  },
-  "extNew": {
-    "message": "Please update [LearningThePooh] new version ",
+    "message": "Please wait for the new version to be released",
     "description": ""
   }
 }

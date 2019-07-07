@@ -1,5 +1,5 @@
 let scoreTabId = 0, runningTabId = 0, scoreWindowId = 0, runningWindowId = 0, channelUrls = {}, userId = 0,
-    usedUrls = {}, accountLogin = 0, redirectPoints = 0;
+    usedUrls = {}, chooseLogin = 0;
 let windowWidth = 360 + Math.floor(Math.random() * 120);
 let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
@@ -9,8 +9,7 @@ let urlMap = {
     "index": "https://www.xuexi.cn",
     "points": "https://pc.xuexi.cn/points/my-points.html",
     "scoreApi": "https://pc-api.xuexi.cn/open/api/score/today/queryrate",
-    "channelApi": "https://www.xuexi.cn/lgdata/",
-    "account": "https://login.dingtalk.com/login/index.htm?goto=https%3A%2F%2Foapi.dingtalk.com%2Fconnect%2Foauth2%2Fsns_authorize%3Fappid%3Ddingoankubyrfkttorhpou%26response_type%3Dcode%26scope%3Dsnsapi_login%26redirect_uri%3Dhttps%3A%2F%2Fpc-api.xuexi.cn%2Fopen%2Fapi%2Fsns%2Fcallback"
+    "channelApi": "https://www.xuexi.cn/lgdata/"
 };
 let channel = {
     'article': [
@@ -46,94 +45,10 @@ let channel = {
         "17th9fq5c7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#17th9fq5c7l-5",
         "vc9n1ga0nl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#vc9n1ga0nl-5",
         "1f8iooppm7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1f8iooppm7l-5",
-        "18rkaul9h7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#18rkaul9h7l-5",
+        "17fsu5j4hnl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#17fsu5j4hnl-5",
         "1am3asi2enl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1am3asi2enl-5",
     ]
 };
-
-//检测是否有新版本
-chrome.management.getSelf(function (extensionInfo) {
-    let localVersion, remoteVersion;
-    if (extensionInfo.hasOwnProperty("version")) {
-        localVersion = extensionInfo.version;
-        chrome.storage.local.get("version_check", function (items) {
-            if (!items.hasOwnProperty("version_check") || Date.parse(new Date()) - items["version_check"] > 86400000) {
-                chrome.storage.local.set({"version_check": Date.parse(new Date())});
-                let xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://raw.githubusercontent.com/CN1984/LearningThePooh/master/release/manifest.json");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            let res = JSON.parse(xhr.responseText);
-                            if (res.hasOwnProperty("version")) {
-                                remoteVersion = res.version;
-                                if (compareVersion(localVersion, remoteVersion)) {
-                                    notice(chrome.i18n.getMessage("extNew") + "v" + remoteVersion);
-                                }
-                            }
-                        }
-                    }
-                };
-                xhr.send();
-            }
-        });
-    }
-});
-
-if (!isMobile) {
-    //生成登录方式菜单
-    chrome.storage.local.get("account_login", function (items) {
-        if (items.hasOwnProperty("account_login")) {
-            accountLogin = items["account_login"];
-        }
-        loginMenu = [
-            chrome.contextMenus.create({
-                "contexts": ["browser_action"],
-                "type": "separator"
-            }),
-            chrome.contextMenus.create({
-                "contexts": ["browser_action"],
-                "type": "radio",
-                "title": chrome.i18n.getMessage("extAppLogin"),
-                "checked": !accountLogin,
-                "onclick": function (info, tab) {
-                    accountLogin = 0;
-                    chrome.storage.local.set({"account_login": accountLogin});
-                }
-            }),
-            chrome.contextMenus.create({
-                "contexts": ["browser_action"],
-                "type": "radio",
-                "title": chrome.i18n.getMessage("extAccountLogin"),
-                "checked": !!accountLogin,
-                "onclick": function (info, tab) {
-                    accountLogin = 1;
-                    chrome.storage.local.set({"account_login": accountLogin});
-                }
-            })
-        ];
-    });
-}
-
-//比对版本
-function compareVersion(localVersion, remoteVersion) {
-    let localArr = localVersion.split(".");
-    let remoteArr = remoteVersion.split(".");
-    if (localArr.hasOwnProperty(2) && remoteArr.hasOwnProperty(2)) {
-        if (remoteArr[0] > localArr[0]) {
-            return true;
-        } else if (remoteArr[0] === localArr[0]) {
-            if (remoteArr[1] > localArr[1]) {
-                return true;
-            } else if (remoteArr[1] === localArr[1]) {
-                if (remoteArr[2] > localArr[2]) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
 
 //检查用户积分数据
 function getPointsData(callback) {
@@ -175,7 +90,7 @@ function getPointsData(callback) {
                     chrome.tabs.update(scoreTabId, {"active": true});
                     chrome.tabs.sendMessage(scoreTabId, {
                         "method": "redirect",
-                        "data": getLoginUrl()
+                        "data": urlMap.points
                     });
                 }
             }
@@ -210,7 +125,6 @@ function checkScoreAPI(res) {
 
 //检查首页内容数据
 function getChannelData(type, callback) {
-
     shuffle(channel[type]);
     channelArr = channel[type][0].split('|');
 
@@ -248,6 +162,15 @@ function getChannelData(type, callback) {
                         }
                         if (res[key].hasOwnProperty("url")) {
                             url = res[key].url;
+                            if (type === 'article') {
+                                if (url.indexOf("e43e220633a65f9b6d8b53712cba9caa") === -1 && url.indexOf("lgpage/detail/index") === -1) {
+                                    continue;
+                                }
+                            } else {
+                                if (url.indexOf("cf94877c29e1c685574e0226618fb1be") === -1 && url.indexOf("7f9f27c65e84e71e1b7189b7132b4710") === -1 && url.indexOf("lgpage/detail/index") === -1) {
+                                    continue;
+                                }
+                            }
                             if (list.indexOf(url) === -1 && pass.indexOf(url) === -1) {
                                 if (usedUrls[type].indexOf(url) === -1) {
                                     list.push(url);
@@ -430,7 +353,8 @@ function closeWindow(windowId) {
 
 //获取登录链接
 function getLoginUrl() {
-    return !isMobile ? (accountLogin ? urlMap.account : urlMap.points) : urlMap.account;
+    let lang = chrome.i18n.getUILanguage() === "zh-CN" ? ".zh-CN" : "";
+    return chrome.runtime.getURL("login" + lang + ".html");
 }
 
 //扩展按钮点击事件
@@ -447,7 +371,8 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                 }
             } else {
                 channelUrls = {};
-                createWindow(getLoginUrl(), function (window) {
+                chooseLogin = 0;
+                createWindow(urlMap.points, function (window) {
                     scoreWindowId = window.id;
                     scoreTabId = window.tabs[window.tabs.length - 1].id;
                 });
@@ -461,28 +386,11 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                 }
             } else {
                 channelUrls = {};
-                chrome.tabs.create({"url": getLoginUrl()}, function (tab) {
+                chooseLogin = 0;
+                chrome.tabs.create({"url": urlMap.points}, function (tab) {
                     scoreTabId = tab.id;
                 });
             }
-        }
-    }
-});
-
-//标签页更新事件
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if (tabId === scoreTabId) {
-        if (changeInfo.hasOwnProperty("url") && changeInfo.url.indexOf("my-study") !== -1) {
-            redirectPoints = 1;
-        }
-        if (changeInfo.hasOwnProperty("status") && changeInfo.status === "complete" && redirectPoints) {
-            redirectPoints = 0;
-            setTimeout(function () {
-                chrome.tabs.sendMessage(tabId, {
-                    "method": "redirect",
-                    "data": urlMap.points
-                });
-            }, 1000 + Math.floor(Math.random() * 3000));
         }
     }
 });
@@ -514,7 +422,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case "checkTab":
             if (sender.tab.windowId === runningWindowId || sender.tab.id === runningTabId || sender.tab.id === scoreTabId) {
                 sendResponse({
-                    "runtime": 1
+                    "runtime": 1,
                 });
             }
             break;
@@ -575,6 +483,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case "useUrl":
             if (usedUrls[request.type].indexOf(sender.tab.url) === -1) {
                 usedUrls[request.type].push(sender.tab.url);
+            }
+            break;
+        case "chooseLogin":
+            chooseLogin = 1;
+            break;
+        case "checkLogin":
+            if (sender.tab.id === scoreTabId) {
+                if (!chooseLogin) {
+                    chrome.tabs.update(sender.tab.id, {"url": getLoginUrl()});
+                }
             }
             break;
     }

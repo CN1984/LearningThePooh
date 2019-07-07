@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "1.4.2",
+  "version": "1.4.4",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "icons": {
@@ -37,6 +37,14 @@
     },
     {
       "js": [
+        "js/study.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/my-study.html*"
+      ]
+    },
+    {
+      "js": [
         "js/runtime.js"
       ],
       "matches": [
@@ -58,8 +66,6 @@
   "permissions": [
     "*://*.xuexi.cn/*",
     "tabs",
-    "storage",
-    "notifications",
-    "contextMenus"
+    "notifications"
   ]
 }

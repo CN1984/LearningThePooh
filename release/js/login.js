@@ -13,3 +13,5 @@ if (qrCode) {
         }, 1000 + Math.floor(Math.random() * 1000));
     }, 1000 + Math.floor(Math.random() * 1000))
 }
+
+chrome.runtime.sendMessage({"method": "checkLogin"});

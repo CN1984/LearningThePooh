@@ -11,14 +11,6 @@
     "message": "请更新浏览器版本",
     "description": ""
   },
-  "extAppLogin": {
-    "message": "APP扫码登录",
-    "description": ""
-  },
-  "extAccountLogin": {
-    "message": "账号密码登录",
-    "description": ""
-  },
   "extWorking": {
     "message": "努力学习中",
     "description": ""
@@ -28,15 +20,7 @@
     "description": ""
   },
   "extFinish": {
-    "message": "学习完毕，明天见",
-    "description": ""
-  },
-  "extSafeMode": {
-    "message": "安全模式",
-    "description": ""
-  },
-  "extFlashMode": {
-    "message": "闪电模式",
+    "message": "学习完毕！明天见",
     "description": ""
   },
   "extScoreApi": {
@@ -48,11 +32,7 @@
     "description": ""
   },
   "extUpdate": {
-    "message": "请等待「学习小熊」新版本",
-    "description": ""
-  },
-  "extNew": {
-    "message": "请更新「学习小熊」新版本 ",
+    "message": "请等待新版本发布",
     "description": ""
   }
 }
