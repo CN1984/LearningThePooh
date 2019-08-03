@@ -87,11 +87,7 @@ function getPointsData(callback) {
                     if (runningWindowId) {
                         closeWindow();
                     }
-                    chrome.tabs.update(scoreTabId, {"active": true});
-                    chrome.tabs.sendMessage(scoreTabId, {
-                        "method": "redirect",
-                        "data": urlMap.points
-                    });
+                    chrome.tabs.update(scoreTabId, {"active": true, "url": getLoginUrl()});
                 }
             }
         };
@@ -422,7 +418,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         case "checkTab":
             if (sender.tab.windowId === runningWindowId || sender.tab.id === runningTabId || sender.tab.id === scoreTabId) {
                 sendResponse({
-                    "runtime": 1,
+                    "runtime": 1
                 });
             }
             break;
@@ -487,11 +483,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             break;
         case "chooseLogin":
             chooseLogin = 1;
+            sendResponse({
+                "chooseLogin": chooseLogin
+            });
             break;
         case "checkLogin":
             if (sender.tab.id === scoreTabId) {
                 if (!chooseLogin) {
-                    chrome.tabs.update(sender.tab.id, {"url": getLoginUrl()});
+                    chrome.tabs.update(scoreTabId, {"url": getLoginUrl()});
                 }
             }
             break;
