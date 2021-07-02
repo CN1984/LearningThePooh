@@ -212,14 +212,14 @@ function autoEarnPoints(timeout) {
                     case 1002:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "article";
-                            newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
+                            newTime = 60 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
                     case 2:
                     case 1003:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "video";
-                            newTime = 125 * 1000 + Math.floor(Math.random() * 120 * 1000);
+                            newTime = 60 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
                 }
